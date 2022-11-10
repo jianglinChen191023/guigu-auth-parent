@@ -7,6 +7,7 @@ import springfox.documentation.builders.ParameterBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.schema.ModelRef;
+import springfox.documentation.service.Contact;
 import springfox.documentation.service.Parameter;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
@@ -35,7 +36,7 @@ public class Knife4jConfig {
                         .title("后台管理系统-API文档")
                         .description("本文档描述了后台管理系统微服务接口定义")
                         .termsOfServiceUrl("https://doc.xiaominfo.com/")
-                        .contact("xiaoymin@foxmail.com")
+                        .contact(new Contact("atguigu", "http://atguigu.com", "atguigu@qq.com"))
                         .version("1.0")
                         .build())
                 // 分组名称
