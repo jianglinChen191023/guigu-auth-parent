@@ -77,7 +77,7 @@ public class SysRoleController {
     }
 
     @ApiOperation("根据id查询角色")
-    @PutMapping("/findRoleById/{id}")
+    @GetMapping("/findRoleById/{id}")
     public Result<SysRole> findRoleById(
             @PathVariable Long id
     ) {
