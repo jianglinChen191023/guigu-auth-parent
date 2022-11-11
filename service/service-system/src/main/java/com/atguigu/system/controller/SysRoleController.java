@@ -33,7 +33,7 @@ public class SysRoleController {
     @ApiOperation(value = "逻辑删除")
     @DeleteMapping("/remove/{id}")
     public Result removeById(
-            @ApiParam("角色id")
+            @ApiParam(value = "角色id", required = true)
             @PathVariable Long id
     ) {
         if (sysRoleService.removeById(id)) {
@@ -51,7 +51,7 @@ public class SysRoleController {
             @ApiParam("每页显示条数")
             @PathVariable Long limit,
             @ApiParam("角色条件视图对象")
-            SysRoleQueryVo sysRoleQueryVo
+                    SysRoleQueryVo sysRoleQueryVo
     ) {
         return Result.ok(sysRoleService.getPage(new Page<>(page, limit), sysRoleQueryVo));
     }
@@ -59,7 +59,6 @@ public class SysRoleController {
     @ApiOperation("角色添加")
     @PostMapping("/save")
     public Result saveRole(
-            @ApiParam(name = "sysRole", value = "角色实体对象")
             @RequestBody SysRole sysRole
     ) {
         if (sysRoleService.save(sysRole)) {
@@ -72,7 +71,7 @@ public class SysRoleController {
     @ApiOperation("角色修改")
     @PutMapping("/update")
     public Result updateRole(
-            @ApiParam(name = "sysRole", value = "角色实体对象")
+            @ApiParam(name = "sysRole", value = "角色实体对象1")
             @RequestBody SysRole sysRole
     ) {
         if (sysRoleService.updateById(sysRole)) {
