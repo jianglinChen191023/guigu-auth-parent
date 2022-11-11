@@ -28,9 +28,6 @@ public class SysRoleController {
     @ApiOperation(value = "查询所有角色")
     @GetMapping("/findAll")
     public Result<List<SysRole>> findAll() {
-        // TODO 模拟异常
-        String i = null;
-        i.length();
         return Result.ok(sysRoleService.list());
     }
 
