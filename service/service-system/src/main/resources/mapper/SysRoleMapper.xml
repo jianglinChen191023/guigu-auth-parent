@@ -12,7 +12,7 @@
     </sql>
 
     <select id="selectPage" resultMap="RoleMap">
-        select
+        select <include refid="columns" />
         from sys_role
         <where>
             <if test="vo.roleName != null and vo.roleName != ''">
