@@ -2,6 +2,7 @@ package com.atguigu.model.base;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableLogic;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -9,15 +10,23 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * 基础实体
+ *
+ * @author 陈江林
+ * @date 2022/11/11
+ */
 @Data
 public class BaseEntity implements Serializable {
 
     //@TableId(type = IdType.AUTO)
     private String id;
 
+    @ApiModelProperty("创建时间")
     @TableField("create_time")
     private Date createTime;
 
+    @ApiModelProperty("更新时间")
     @TableField("update_time")
     private Date updateTime;
 
