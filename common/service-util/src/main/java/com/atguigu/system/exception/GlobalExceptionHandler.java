@@ -48,7 +48,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(GuiguException.class)
     public Result error(GuiguException e) {
         e.printStackTrace();
-        return Result.fail().code(e.getCode()).message(e.getMessage());
+        return Result.fail().code(e.getCode()).message(e.getMsg());
     }
 
 }
