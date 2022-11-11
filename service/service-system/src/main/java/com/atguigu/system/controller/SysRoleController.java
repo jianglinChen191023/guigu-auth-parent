@@ -34,7 +34,7 @@ public class SysRoleController {
     }
 
     @ApiOperation(value = "逻辑删除")
-    @ApiImplicitParam(name = "id", value = "角色id", required = true)
+    @ApiImplicitParam(name = "id", value = "角色id", dataType = "Long", paramType = "path", required = true)
     @DeleteMapping("/remove/{id}")
     public Result<Boolean> removeById(
             @PathVariable Long id
@@ -60,6 +60,19 @@ public class SysRoleController {
             SysRoleQueryVo sysRoleQueryVo
     ) {
         return Result.ok(sysRoleService.getPage(new Page<>(page, limit), sysRoleQueryVo));
+    }
+
+    @ApiOperation("角色添加")
+    @ApiImplicitParam(name = "sysRole", value = "角色实体对象", dataType = "SysRole", paramType = "body")
+    @PostMapping("/save")
+    public Result<Boolean> saveRole(
+            @RequestBody SysRole sysRole
+    ) {
+        if (sysRoleService.save(sysRole)) {
+            return Result.ok();
+        } else {
+            return Result.fail();
+        }
     }
 
 }
