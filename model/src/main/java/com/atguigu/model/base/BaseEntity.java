@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 基础实体
+ * 通用属性类
  *
  * @author 陈江林
  * @date 2022/11/11
