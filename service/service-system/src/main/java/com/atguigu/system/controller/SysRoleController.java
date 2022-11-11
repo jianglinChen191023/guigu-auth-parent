@@ -1,5 +1,6 @@
 package com.atguigu.system.controller;
 
+import com.atguigu.common.result.Result;
 import com.atguigu.model.system.SysRole;
 import com.atguigu.system.service.SysRoleService;
 import io.swagger.annotations.Api;
@@ -29,8 +30,8 @@ public class SysRoleController {
      */
     @ApiOperation(value = "查询所有")
     @GetMapping("/findAll")
-    public List<SysRole> findAll() {
-        return sysRoleService.list();
+    public Result<List<SysRole>> findAll() {
+        return Result.ok(sysRoleService.list());
     }
 
     /**
@@ -41,10 +42,15 @@ public class SysRoleController {
     @ApiImplicitParam(name = "id", value = "角色id", required = true)
     @ApiOperation(value = "逻辑删除")
     @DeleteMapping("/remove/{id}")
-    public boolean removeById(
+    public Result<Boolean> removeById(
             @PathVariable Long id
     ) {
-        return sysRoleService.removeById(id);
+        boolean isSuccess = sysRoleService.removeById(id);
+        if (isSuccess) {
+            return Result.ok();
+        } else {
+            return Result.fail();
+        }
     }
 
 }
