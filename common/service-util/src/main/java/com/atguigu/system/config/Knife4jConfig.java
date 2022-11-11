@@ -20,6 +20,14 @@ import java.util.function.Supplier;
 /**
  * Swagger 集成 Knife4j 配置类
  *
+ * 如果开发者使用的是Knife4j 2.x版本，并且Spring Boot版本高于2.4,那么需要在Spring Boot的yml文件中做如下配置：
+ *
+ * spring:
+ *     mvc:
+ *         pathmatch:
+ *             # 配置策略
+ *             matching-strategy: ant-path-matcher
+ *
  * @author 陈江林
  * @date 2022/11/10 16:48
  */
