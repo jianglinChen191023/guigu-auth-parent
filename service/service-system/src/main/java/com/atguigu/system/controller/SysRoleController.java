@@ -3,6 +3,7 @@ package com.atguigu.system.controller;
 import com.atguigu.common.result.Result;
 import com.atguigu.model.system.SysRole;
 import com.atguigu.model.vo.SysRoleQueryVo;
+import com.atguigu.system.exception.GuiguException;
 import com.atguigu.system.service.SysRoleService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -28,7 +29,11 @@ public class SysRoleController {
     @GetMapping("/findAll")
     public Result<List<SysRole>> findAll() {
         // TODO 模拟异常
-        int i = 9 / 0;
+        try {
+            int i = 9 / 0;
+        } catch (Exception e) {
+            throw new GuiguException(201, "执行自定义异常处理");
+        }
 
         return Result.ok(sysRoleService.list());
     }
