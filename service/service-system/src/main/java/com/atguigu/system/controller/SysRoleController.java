@@ -62,7 +62,7 @@ public class SysRoleController {
     }
 
     @ApiOperation("角色添加")
-    @ApiImplicitParam(name = "sysRole", value = "角色实体对象", dataType = "SysRole", paramType = "body")
+    @ApiImplicitParam(name = "sysRole", value = "角色实体对象", dataType = "SysRole", paramType = "body", required = true)
     @PostMapping("/save")
     public Result saveRole(
             @RequestBody SysRole sysRole
@@ -75,7 +75,7 @@ public class SysRoleController {
     }
 
     @ApiOperation("角色修改")
-    @ApiImplicitParam(name = "sysRole", value = "角色实体对象", dataType = "SysRole", paramType = "body")
+    @ApiImplicitParam(name = "sysRole", value = "角色实体对象", dataType = "SysRole", paramType = "body", required = true)
     @PutMapping("/update")
     public Result updateRole(
             @RequestBody SysRole sysRole
@@ -97,7 +97,7 @@ public class SysRoleController {
     }
 
     @ApiOperation("批量删除")
-    @ApiImplicitParam(name = "ids", value = "一些角色id", allowMultiple = true, dataType = "Long", paramType = "body")
+    @ApiImplicitParam(name = "ids", value = "一些角色id", allowMultiple = true, dataType = "Long", paramType = "body", required = true)
     @DeleteMapping("/batchRemove")
     public Result batchRemove(
             @RequestBody List<Long> ids
