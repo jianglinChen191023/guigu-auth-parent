@@ -49,9 +49,9 @@ public class SysRoleController {
 
     @ApiOperation(value = "条件分页查询")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "page", value = "当前页", required = true),
-            @ApiImplicitParam(name = "limit", value = "每页显示条数", required = true),
-            @ApiImplicitParam(name = "sysRoleQueryVo", value = "角色条件视图对象")
+            @ApiImplicitParam(name = "page", value = "当前页", dataType = "Long", paramType = "path", required = true),
+            @ApiImplicitParam(name = "limit", value = "每页显示条数", dataType = "Long", paramType = "path", required = true),
+            @ApiImplicitParam(name = "sysRoleQueryVo", value = "角色条件视图对象", dataType = "SysRoleQueryVo", paramType = "query")
     })
     @GetMapping("/{page}/{limit}")
     public Result<IPage<SysRole>> findQueryRole(

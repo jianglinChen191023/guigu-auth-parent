@@ -19,6 +19,9 @@ public class SysRoleTest {
     @Autowired
     private SysRoleService sysRoleService;
 
+    /**
+     * 条件分页查询
+     */
     @Test
     public void getPage() {
         IPage<SysRole> page = sysRoleService.getPage(new Page<>(1L, 10L), new SysRoleQueryVo());
