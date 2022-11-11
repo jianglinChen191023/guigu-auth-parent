@@ -7,7 +7,6 @@ import com.atguigu.system.service.SysRoleService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.*;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,9 +31,9 @@ public class SysRoleController {
     }
 
     @ApiOperation(value = "逻辑删除")
-    @ApiImplicitParam(name = "id", value = "角色id", dataType = "Long", paramType = "path", required = true)
     @DeleteMapping("/remove/{id}")
     public Result removeById(
+            @ApiParam("角色id")
             @PathVariable Long id
     ) {
         if (sysRoleService.removeById(id)) {
@@ -73,9 +72,9 @@ public class SysRoleController {
     }
 
     @ApiOperation("角色修改")
-    @ApiImplicitParam(name = "sysRole", value = "角色实体对象", dataType = "SysRole", paramType = "body", required = true)
     @PutMapping("/update")
     public Result updateRole(
+            @ApiParam(name = "sysRole", value = "角色实体对象")
             @RequestBody SysRole sysRole
     ) {
         if (sysRoleService.updateById(sysRole)) {
@@ -86,18 +85,18 @@ public class SysRoleController {
     }
 
     @ApiOperation("根据id查询角色")
-    @ApiImplicitParam(name = "id", value = "角色id", dataType = "Long", paramType = "path", required = true)
     @PutMapping("/findRoleById/{id}")
     public Result<SysRole> findRoleById(
+            @ApiParam(name = "id", value = "角色id")
             @PathVariable Long id
     ) {
         return Result.ok(sysRoleService.getById(id));
     }
 
     @ApiOperation("批量删除")
-    @ApiImplicitParam(name = "ids", value = "一些角色id", allowMultiple = true, dataType = "Long", paramType = "body", required = true)
     @DeleteMapping("/batchRemove")
     public Result batchRemove(
+            @ApiParam(name = "ids", value = "一些角色id")
             @RequestBody List<Long> ids
     ) {
         if (sysRoleService.removeByIds(ids)) {
