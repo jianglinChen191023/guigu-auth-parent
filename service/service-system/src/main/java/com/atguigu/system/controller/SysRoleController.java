@@ -36,11 +36,10 @@ public class SysRoleController {
     @ApiOperation(value = "逻辑删除")
     @ApiImplicitParam(name = "id", value = "角色id", dataType = "Long", paramType = "path", required = true)
     @DeleteMapping("/remove/{id}")
-    public Result<Boolean> removeById(
+    public Result removeById(
             @PathVariable Long id
     ) {
-        boolean isSuccess = sysRoleService.removeById(id);
-        if (isSuccess) {
+        if (sysRoleService.removeById(id)) {
             return Result.ok();
         } else {
             return Result.fail();
@@ -65,7 +64,7 @@ public class SysRoleController {
     @ApiOperation("角色添加")
     @ApiImplicitParam(name = "sysRole", value = "角色实体对象", dataType = "SysRole", paramType = "body")
     @PostMapping("/save")
-    public Result<Boolean> saveRole(
+    public Result saveRole(
             @RequestBody SysRole sysRole
     ) {
         if (sysRoleService.save(sysRole)) {
@@ -78,7 +77,7 @@ public class SysRoleController {
     @ApiOperation("角色修改")
     @ApiImplicitParam(name = "sysRole", value = "角色实体对象", dataType = "SysRole", paramType = "body")
     @PutMapping("/update")
-    public Result<Boolean> updateRole(
+    public Result updateRole(
             @RequestBody SysRole sysRole
     ) {
         if (sysRoleService.updateById(sysRole)) {
@@ -95,5 +94,18 @@ public class SysRoleController {
             @PathVariable Long id
     ) {
         return Result.ok(sysRoleService.getById(id));
+    }
+
+    @ApiOperation("批量删除")
+    @ApiImplicitParam(name = "ids", value = "一些角色id", allowMultiple = true, dataType = "Long", paramType = "body")
+    @DeleteMapping("/batchRemove")
+    public Result batchRemove(
+            @RequestBody List<Long> ids
+    ) {
+        if (sysRoleService.removeByIds(ids)) {
+            return Result.ok();
+        } else {
+            return Result.fail();
+        }
     }
 }
