@@ -75,4 +75,25 @@ public class SysRoleController {
         }
     }
 
+    @ApiOperation("角色修改")
+    @ApiImplicitParam(name = "sysRole", value = "角色实体对象", dataType = "SysRole", paramType = "body")
+    @PutMapping("/update")
+    public Result<Boolean> updateRole(
+            @RequestBody SysRole sysRole
+    ) {
+        if (sysRoleService.updateById(sysRole)) {
+            return Result.ok();
+        } else {
+            return Result.fail();
+        }
+    }
+
+    @ApiOperation("根据id查询角色")
+    @ApiImplicitParam(name = "id", value = "角色id", dataType = "Long", paramType = "path", required = true)
+    @PutMapping("/findRoleById/{id}")
+    public Result<SysRole> findRoleById(
+            @PathVariable Long id
+    ) {
+        return Result.ok(sysRoleService.getById(id));
+    }
 }
