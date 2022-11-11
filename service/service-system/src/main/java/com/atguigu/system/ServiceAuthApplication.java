@@ -3,6 +3,7 @@ package com.atguigu.system;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 
 /**
  * 权限服务启动类
@@ -12,6 +13,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 @SpringBootApplication
 @MapperScan("com.atguigu.system.mapper")
+@ComponentScan(basePackages = "com.atguigu")
 public class ServiceAuthApplication {
 
     public static void main(String[] args) {
