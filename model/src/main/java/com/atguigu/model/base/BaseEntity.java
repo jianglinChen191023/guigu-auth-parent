@@ -20,6 +20,7 @@ import java.util.Map;
 public class BaseEntity implements Serializable {
 
     //@TableId(type = IdType.AUTO)
+    @ApiModelProperty("唯一标识")
     private String id;
 
     @ApiModelProperty("创建时间")
@@ -30,10 +31,12 @@ public class BaseEntity implements Serializable {
     @TableField("update_time")
     private Date updateTime;
 
-    @TableLogic  //逻辑删除 默认效果 0 没有删除 1 已经删除
+    @ApiModelProperty("逻辑删除{0: 没有删除,1: 已经删除}")
+    @TableLogic
     @TableField("is_deleted")
     private Integer isDeleted;
 
+    @ApiModelProperty("其他参数")
     @TableField(exist = false)
-    private Map<String,Object> param = new HashMap<>();
+    private Map<String, Object> param = new HashMap<>();
 }
