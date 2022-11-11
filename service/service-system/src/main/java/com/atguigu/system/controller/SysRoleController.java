@@ -52,7 +52,7 @@ public class SysRoleController {
             @ApiImplicitParam(name = "page", value = "当前页", required = true),
             @ApiImplicitParam(name = "limit", value = "每页显示条数", required = true)
     })
-    @DeleteMapping("/{page}/{limit}")
+    @GetMapping("/{page}/{limit}")
     public Result<IPage<SysRole>> findQueryRole(
             @PathVariable Long page,
             @PathVariable Long limit,
