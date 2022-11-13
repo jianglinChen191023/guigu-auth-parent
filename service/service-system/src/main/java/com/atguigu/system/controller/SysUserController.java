@@ -80,7 +80,7 @@ public class SysUserController {
     }
 
     @ApiOperation("批量删除")
-    @DeleteMapping("/removeByIds}")
+    @DeleteMapping("/removeByIds")
     public Result removeByIds(
             @RequestBody List<Long> ids
     ) {
