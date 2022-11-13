@@ -50,8 +50,8 @@ public class SysUserController {
     }
 
     @ApiOperation("根据id获取用户信息")
-    @GetMapping("/getUserById/{id}")
-    public Result<SysUser> getUserById(
+    @GetMapping("/getById/{id}")
+    public Result<SysUser> getById(
             @PathVariable Long id
     ) {
         return Result.ok(sysUserService.getById(id));
@@ -80,8 +80,8 @@ public class SysUserController {
     }
 
     @ApiOperation("批量删除")
-    @DeleteMapping("/batchRemove}")
-    public Result batchRemove(
+    @DeleteMapping("/removeByIds}")
+    public Result removeByIds(
             @RequestBody List<Long> ids
     ) {
         if (sysUserService.removeByIds(ids)) {
