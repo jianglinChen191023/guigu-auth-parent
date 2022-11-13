@@ -70,9 +70,9 @@ public class SysUserController {
     @ApiOperation("根据id删除")
     @DeleteMapping("/removeById/{id}")
     public Result removeById(
-            SysUser sysUser
+            @PathVariable Long id
     ) {
-        if (sysUserService.removeById(sysUser)) {
+        if (sysUserService.removeById(id)) {
             return Result.ok();
         } else {
             return Result.fail();
