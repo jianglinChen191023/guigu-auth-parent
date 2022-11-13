@@ -16,7 +16,7 @@ import java.util.function.Supplier;
  * @author 陈江林
  * @date 2022/11/12 20:03
  */
-@Api("用户登录接口")
+@Api(tags = "用户登录退出")
 @RestController
 @RequestMapping("/admin/system/index")
 public class IndexController {

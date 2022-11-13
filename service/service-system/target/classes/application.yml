@@ -3,3 +3,6 @@ spring:
     name: service-system
   profiles:
     active: prod
+  jackson:
+    generator:
+      writeNumbersAsStrings: true
