@@ -39,6 +39,21 @@ public class SysUserController {
         }
     }
 
+    @ApiOperation("修改状态")
+    @PutMapping("/updateStatus/{id}/{status}")
+    public Result update(
+            @PathVariable Long id,
+            @PathVariable Integer status
+    ) {
+        SysUser sysUser = sysUserService.getById(id);
+        sysUser.setStatus(status);
+        if (sysUserService.updateById(sysUser)) {
+            return Result.ok();
+        } else {
+            return Result.fail();
+        }
+    }
+
     @ApiOperation("用户修改")
     @PutMapping("/update")
     public Result update(@RequestBody SysUser sysUser) {
