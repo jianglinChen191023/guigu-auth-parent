@@ -88,7 +88,7 @@ public class SysRoleController {
     @ApiOperation("批量删除")
     @DeleteMapping("/batchRemove")
     public Result batchRemove(
-            @RequestBody List<String> ids
+            @RequestBody List<Long> ids
     ) {
         if (sysRoleService.removeByIds(ids)) {
             return Result.ok();

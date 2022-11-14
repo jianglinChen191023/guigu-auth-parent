@@ -97,7 +97,7 @@ public class SysUserController {
     @ApiOperation("批量删除")
     @DeleteMapping("/removeByIds")
     public Result removeByIds(
-            @RequestBody List<String> ids
+            @RequestBody List<Long> ids
     ) {
         if (sysUserService.removeByIds(ids)) {
             return Result.ok();
