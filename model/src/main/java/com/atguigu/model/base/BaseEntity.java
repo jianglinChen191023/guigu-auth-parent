@@ -21,7 +21,7 @@ public class BaseEntity implements Serializable {
 
     //@TableId(type = IdType.AUTO)
     @ApiModelProperty("唯一标识")
-    private String id;
+    private Long id;
 
     @ApiModelProperty("创建时间")
     @TableField("create_time")
