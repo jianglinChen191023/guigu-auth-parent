@@ -10,7 +10,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -34,18 +33,18 @@ public class SysUserController {
     @ApiOperation("用户保存")
     @PostMapping("/save")
     public Result save(@RequestBody SysUser sysUser) {
-        if (StringUtils.isEmpty(sysUserService.getOne(new LambdaQueryWrapper<SysUser>()
-                .eq(SysUser::getUsername, sysUser.getUsername())))) {
+        if (0 != sysUserService.count(new LambdaQueryWrapper<SysUser>()
+                .eq(SysUser::getUsername, sysUser.getUsername()))) {
             return Result.fail().message("用户名称已存在!");
         }
 
-        if (StringUtils.isEmpty(sysUserService.getOne(new LambdaQueryWrapper<SysUser>()
-                .eq(SysUser::getPhone, sysUser.getPhone())))) {
+        if (0 != sysUserService.count(new LambdaQueryWrapper<SysUser>()
+                .eq(SysUser::getPhone, sysUser.getPhone()))) {
             return Result.fail().message("手机号码已存在!");
         }
 
-        if (StringUtils.isEmpty(sysUserService.getOne(new LambdaQueryWrapper<SysUser>()
-                .eq(SysUser::getName, sysUser.getName())))) {
+        if (0 != sysUserService.count(new LambdaQueryWrapper<SysUser>()
+                .eq(SysUser::getName, sysUser.getName()))) {
             return Result.fail().message("昵称已存在!");
         }
 
@@ -74,18 +73,18 @@ public class SysUserController {
     @ApiOperation("用户修改")
     @PutMapping("/update")
     public Result update(@RequestBody SysUser sysUser) {
-        if (StringUtils.isEmpty(sysUserService.getOne(new LambdaQueryWrapper<SysUser>()
-                .eq(SysUser::getUsername, sysUser.getUsername())))) {
+        if (0 != sysUserService.count(new LambdaQueryWrapper<SysUser>()
+                .eq(SysUser::getUsername, sysUser.getUsername()))) {
             return Result.fail().message("用户名称已存在!");
         }
 
-        if (StringUtils.isEmpty(sysUserService.getOne(new LambdaQueryWrapper<SysUser>()
-                .eq(SysUser::getPhone, sysUser.getPhone())))) {
+        if (0 != sysUserService.count(new LambdaQueryWrapper<SysUser>()
+                .eq(SysUser::getPhone, sysUser.getPhone()))) {
             return Result.fail().message("手机号码已存在!");
         }
 
-        if (StringUtils.isEmpty(sysUserService.getOne(new LambdaQueryWrapper<SysUser>()
-                .eq(SysUser::getName, sysUser.getName())))) {
+        if (0 != sysUserService.count(new LambdaQueryWrapper<SysUser>()
+                .eq(SysUser::getName, sysUser.getName()))) {
             return Result.fail().message("昵称已存在!");
         }
 
