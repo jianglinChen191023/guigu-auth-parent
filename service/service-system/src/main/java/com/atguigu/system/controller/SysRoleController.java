@@ -4,11 +4,13 @@ import com.atguigu.common.result.Result;
 import com.atguigu.model.system.SysRole;
 import com.atguigu.model.vo.SysRoleQueryVo;
 import com.atguigu.system.service.SysRoleService;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -58,6 +60,16 @@ public class SysRoleController {
     public Result saveRole(
             @RequestBody SysRole sysRole
     ) {
+        if (StringUtils.isEmpty(sysRoleService.getOne(new LambdaQueryWrapper<SysRole>()
+                .eq(SysRole::getRoleName, sysRole.getRoleName())))) {
+            return Result.fail().message("角色名称已存在!");
+        }
+
+        if (StringUtils.isEmpty(sysRoleService.getOne(new LambdaQueryWrapper<SysRole>()
+                .eq(SysRole::getRoleCode, sysRole.getRoleCode())))) {
+            return Result.fail().message("角色编码已存在!");
+        }
+
         if (sysRoleService.save(sysRole)) {
             return Result.ok();
         } else {
@@ -70,6 +82,16 @@ public class SysRoleController {
     public Result updateRole(
             @RequestBody SysRole sysRole
     ) {
+        if (StringUtils.isEmpty(sysRoleService.getOne(new LambdaQueryWrapper<SysRole>()
+                .eq(SysRole::getRoleName, sysRole.getRoleName())))) {
+            return Result.fail().message("角色名称已存在!");
+        }
+
+        if (StringUtils.isEmpty(sysRoleService.getOne(new LambdaQueryWrapper<SysRole>()
+                .eq(SysRole::getRoleCode, sysRole.getRoleCode())))) {
+            return Result.fail().message("角色编码已存在!");
+        }
+
         if (sysRoleService.updateById(sysRole)) {
             return Result.ok();
         } else {
