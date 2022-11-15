@@ -2,6 +2,7 @@ package com.atguigu.system.controller;
 
 import com.atguigu.common.result.Result;
 import com.atguigu.model.system.SysRole;
+import com.atguigu.model.vo.AssginRoleVo;
 import com.atguigu.model.vo.SysRoleQueryVo;
 import com.atguigu.system.service.SysRoleService;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author 陈江林
@@ -25,6 +27,23 @@ public class SysRoleController {
 
     @Autowired
     private SysRoleService sysRoleService;
+
+    @ApiOperation(value = "根据用户id获取对应角色")
+    @GetMapping("/getRolesByUserId/{userId}")
+    public Result<Map<String, Object>> getRolesByUserId(
+            @PathVariable Long userId
+    ) {
+        return Result.ok(sysRoleService.getRolesByUserId(userId));
+    }
+
+    @ApiOperation(value = "给用户分配角色")
+    @PostMapping("/doAssign")
+    public Result<List<SysRole>> doAssign(
+            @RequestBody AssginRoleVo assginRoleVo
+    ) {
+        sysRoleService.doAssign(assginRoleVo);
+        return Result.ok();
+    }
 
     @ApiOperation(value = "查询所有角色")
     @GetMapping("/findAll")
