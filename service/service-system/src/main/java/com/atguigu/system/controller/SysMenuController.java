@@ -31,11 +31,6 @@ public class SysMenuController {
     @ApiOperation("菜单保存")
     @PostMapping("/save")
     public Result save(@RequestBody SysMenu sysMenu) {
-        if (0 != sysMenuService.count(new LambdaQueryWrapper<SysMenu>()
-                .eq(SysMenu::getName, sysMenu.getName()))) {
-            return Result.fail().message("菜单名称已存在!");
-        }
-
         if (sysMenuService.save(sysMenu)) {
             return Result.ok();
         } else {
