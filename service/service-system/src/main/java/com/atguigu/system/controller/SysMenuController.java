@@ -87,7 +87,7 @@ public class SysMenuController {
         return Result.ok(sysMenuService.getMenuListByParentId(parentId));
     }
 
-    @ApiOperation("根据id删除菜单及其子菜单")
+    @ApiOperation("根据id删除菜单")
     @DeleteMapping("/removeById/{id}")
     public Result removeById(
             @PathVariable Long id

@@ -1,6 +1,8 @@
 package com.atguigu.system.service.impl;
 
+import com.atguigu.common.result.ResultCodeEnum;
 import com.atguigu.model.system.SysMenu;
+import com.atguigu.system.exception.GuiguException;
 import com.atguigu.system.mapper.SysMenuMapper;
 import com.atguigu.system.service.SysMenuService;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -24,11 +26,11 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 
     @Override
     public boolean removeMenuById(Long id) {
-        // 查询该菜单的所有子菜单
-        baseMapper.selectList(
-                new LambdaQueryWrapper<SysMenu>()
-                        .eq(SysMenu::getParentId, id)
-        ).forEach(sysMenu -> baseMapper.deleteById(sysMenu.getId()));
+        // 如果有子菜单, 禁止删除
+        if(0 < baseMapper.selectCount(new LambdaQueryWrapper<SysMenu>()
+                .eq(SysMenu::getParentId, id))) {
+            throw new GuiguException(ResultCodeEnum.FAIL.getCode(), "请先删除子菜单!");
+        }
 
         // 删除该菜单
         return SqlHelper.retBool(baseMapper.deleteById(id));
