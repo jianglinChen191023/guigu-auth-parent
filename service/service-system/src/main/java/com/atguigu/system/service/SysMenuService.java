@@ -16,7 +16,7 @@ import java.util.List;
 public interface SysMenuService extends IService<SysMenu> {
 
     /**
-     * 根据id删除菜单及其子菜单
+     * 根据id删除菜单
      *
      * @param id id
      * @return boolean
@@ -24,10 +24,9 @@ public interface SysMenuService extends IService<SysMenu> {
     boolean removeMenuById(Long id);
 
     /**
-     * 菜单列表(懒加载)
+     * 菜单列表(树形)
      *
-     * @param parentId 父id
      * @return {@link List}<{@link SysMenu}>
      */
-    List<SysMenu> getMenuListByParentId(Long parentId);
+    List<SysMenu> getAll();
 }

@@ -81,10 +81,10 @@ public class SysMenuController {
         return Result.ok(sysMenuService.getById(id));
     }
 
-    @ApiOperation("菜单列表(懒加载)")
-    @GetMapping("/getChildMenu/{parentId}")
-    public Result<List<SysMenu>> getChildMenu(@PathVariable Long parentId) {
-        return Result.ok(sysMenuService.getMenuListByParentId(parentId));
+    @ApiOperation("菜单列表(树形)")
+    @GetMapping("/getAll")
+    public Result<List<SysMenu>> getAll() {
+        return Result.ok(sysMenuService.getAll());
     }
 
     @ApiOperation("根据id删除菜单")

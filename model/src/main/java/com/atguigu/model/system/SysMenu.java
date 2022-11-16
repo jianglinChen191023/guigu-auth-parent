@@ -64,10 +64,5 @@ public class SysMenu extends BaseEntity {
 	@TableField(exist = false)
 	private boolean isSelect;
 
-	/**
-	 * 是否有子菜单
-	 */
-	@TableField(exist = false)
-	private boolean hasChildren;
 }
 

@@ -10,6 +10,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,7 +28,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     @Override
     public boolean removeMenuById(Long id) {
         // 如果有子菜单, 禁止删除
-        if(0 < baseMapper.selectCount(new LambdaQueryWrapper<SysMenu>()
+        if (0 < baseMapper.selectCount(new LambdaQueryWrapper<SysMenu>()
                 .eq(SysMenu::getParentId, id))) {
             throw new GuiguException(ResultCodeEnum.FAIL.getCode(), "请先删除子菜单!");
         }
@@ -37,21 +38,30 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     }
 
     @Override
-    public List<SysMenu> getMenuListByParentId(Long parentId) {
-        return baseMapper.selectList(
-                // 根据父id查询菜单
-                new LambdaQueryWrapper<SysMenu>()
-                        .eq(SysMenu::getParentId, parentId)
-        ).stream()
-                .peek(sysMenu -> {
-                    // 判断有无子菜单
-                    sysMenu.setHasChildren(
-                            0 < baseMapper.selectCount(
-                                    new LambdaQueryWrapper<SysMenu>()
-                                            .eq(SysMenu::getParentId, sysMenu.getId())
-                            )
-                    );
-                })
-                .collect(Collectors.toList());
+    public List<SysMenu> getAll() {
+        // 1. 查询所有
+        List<SysMenu> sysMenuList = baseMapper.selectList(null);
+
+        // 2. 封装子菜单
+        sysMenuList.forEach(sysMenu -> {
+            sysMenuList.forEach(sysMenuChildren -> {
+                if (sysMenu.getId().equals(sysMenuChildren.getParentId())) {
+                    // 如果为空, 初始化集合
+                    if (sysMenu.getChildren() == null) {
+                        sysMenu.setChildren(new ArrayList<>());
+                    }
+
+                    // 添加子菜单
+                    sysMenu.getChildren().add(sysMenuChildren);
+                }
+            });
+        });
+
+        // 3. 返回一级菜单
+        return sysMenuList
+                .stream()
+                .collect(Collectors.groupingBy(SysMenu::getParentId))
+                .get(0);
     }
+
 }
