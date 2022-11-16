@@ -3,8 +3,8 @@ package com.atguigu.system.controller;
 
 import com.atguigu.common.result.Result;
 import com.atguigu.model.system.SysMenu;
+import com.atguigu.model.vo.AssginMenuVo;
 import com.atguigu.system.service.SysMenuService;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ import java.util.List;
  * @author 陈江林
  * @since 2022-11-15
  */
-@Api(tags="菜单管理接口")
+@Api(tags = "菜单管理接口")
 @RestController
 @RequestMapping("/admin/system/sysMenu")
 public class SysMenuController {
@@ -28,25 +28,27 @@ public class SysMenuController {
     @Autowired
     private SysMenuService sysMenuService;
 
+    @ApiOperation("根据角色id获取菜单")
+    @GetMapping("/getMenuByRoleId/{roleId}")
+    public Result<List<SysMenu>> getMenuByRoleId(
+            @PathVariable Long roleId
+    ) {
+        return Result.ok(sysMenuService.getMenuByRoleId(roleId));
+    }
+
+    @ApiOperation("给角色分配菜单权限")
+    @PostMapping("/saveRoleMenu")
+    public Result<List<SysMenu>> saveRoleMenu(
+            @RequestBody AssginMenuVo assginMenuVo
+    ) {
+        sysMenuService.saveRoleMenu(assginMenuVo);
+        return Result.ok();
+    }
+
     @ApiOperation("菜单保存")
     @PostMapping("/save")
     public Result save(@RequestBody SysMenu sysMenu) {
         if (sysMenuService.save(sysMenu)) {
-            return Result.ok();
-        } else {
-            return Result.fail();
-        }
-    }
-
-    @ApiOperation("修改状态")
-    @PutMapping("/updateStatus/{id}/{status}")
-    public Result update(
-            @PathVariable Long id,
-            @PathVariable Integer status
-    ) {
-        SysMenu SysMenu = sysMenuService.getById(id);
-        SysMenu.setStatus(status);
-        if (sysMenuService.updateById(SysMenu)) {
             return Result.ok();
         } else {
             return Result.fail();
