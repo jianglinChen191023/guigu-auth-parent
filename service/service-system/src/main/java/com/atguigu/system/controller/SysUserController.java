@@ -73,21 +73,6 @@ public class SysUserController {
     @ApiOperation("用户修改")
     @PutMapping("/update")
     public Result update(@RequestBody SysUser sysUser) {
-        if (0 != sysUserService.count(new LambdaQueryWrapper<SysUser>()
-                .eq(SysUser::getUsername, sysUser.getUsername()))) {
-            return Result.fail().message("用户名称已存在!");
-        }
-
-        if (0 != sysUserService.count(new LambdaQueryWrapper<SysUser>()
-                .eq(SysUser::getPhone, sysUser.getPhone()))) {
-            return Result.fail().message("手机号码已存在!");
-        }
-
-        if (0 != sysUserService.count(new LambdaQueryWrapper<SysUser>()
-                .eq(SysUser::getName, sysUser.getName()))) {
-            return Result.fail().message("昵称已存在!");
-        }
-
         if (sysUserService.updateById(sysUser)) {
             return Result.ok();
         } else {

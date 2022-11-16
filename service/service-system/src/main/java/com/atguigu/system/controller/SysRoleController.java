@@ -100,16 +100,6 @@ public class SysRoleController {
     public Result updateRole(
             @RequestBody SysRole sysRole
     ) {
-        if (0 != sysRoleService.count(new LambdaQueryWrapper<SysRole>()
-                .eq(SysRole::getRoleName, sysRole.getRoleName()))) {
-            return Result.fail().message("角色名称已存在!");
-        }
-
-        if (0 != sysRoleService.count(new LambdaQueryWrapper<SysRole>()
-                .eq(SysRole::getRoleCode, sysRole.getRoleCode()))) {
-            return Result.fail().message("角色编码已存在!");
-        }
-
         if (sysRoleService.updateById(sysRole)) {
             return Result.ok();
         } else {

@@ -61,11 +61,6 @@ public class SysMenuController {
     @ApiOperation("菜单修改")
     @PutMapping("/update")
     public Result update(@RequestBody SysMenu sysMenu) {
-        if (0 != sysMenuService.count(new LambdaQueryWrapper<SysMenu>()
-                .eq(SysMenu::getName, sysMenu.getName()))) {
-            return Result.fail().message("菜单名称已存在!");
-        }
-
         if (sysMenuService.updateById(sysMenu)) {
             return Result.ok();
         } else {
