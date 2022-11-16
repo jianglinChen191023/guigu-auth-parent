@@ -18,7 +18,7 @@ CREATE TABLE `sys_dept`
     `status`      tinyint(1)           DEFAULT '1' COMMENT '状态（1正常 0停用）',
     `create_time` timestamp   NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     `update_time` timestamp   NULL     DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-    `is_deleted`  tinyint(3)  NOT NULL DEFAULT '0' COMMENT '删除标记（0:可用 其他:已删除）',
+    `is_deleted`  bigint(20)  NOT NULL DEFAULT '0' COMMENT '删除标记（0:可用 其他:已删除）',
     PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 2018
@@ -70,7 +70,7 @@ CREATE TABLE `sys_login_log`
     `access_time` datetime            DEFAULT NULL COMMENT '访问时间',
     `create_time` timestamp  NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     `update_time` timestamp  NULL     DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-    `is_deleted`  tinyint(3) NOT NULL DEFAULT '0' COMMENT '删除标记（0:可用 其他:已删除）',
+    `is_deleted`  bigint(20) NOT NULL DEFAULT '0' COMMENT '删除标记（0:可用 其他:已删除）',
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 3
@@ -102,7 +102,7 @@ CREATE TABLE `sys_menu`
     `status`      tinyint(4)           DEFAULT NULL COMMENT '状态(0:禁止,1:正常)',
     `create_time` timestamp   NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `update_time` timestamp   NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-    `is_deleted`  tinyint(3)  NOT NULL DEFAULT '0' COMMENT '删除标记（0:可用 其他:已删除）',
+    `is_deleted`  bigint(20)  NOT NULL DEFAULT '0' COMMENT '删除标记（0:可用 其他:已删除）',
     PRIMARY KEY (`id`),
     KEY `idx_parent_id` (`parent_id`)
 ) ENGINE = InnoDB
@@ -453,7 +453,7 @@ CREATE TABLE `sys_post`
     `status`      tinyint(1)   NOT NULL DEFAULT '1' COMMENT '状态（1正常 0停用）',
     `create_time` timestamp    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     `update_time` timestamp    NULL     DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-    `is_deleted`  tinyint(3)   NOT NULL DEFAULT '0' COMMENT '删除标记（0:可用 其他:已删除）',
+    `is_deleted`  bigint(20)   NOT NULL DEFAULT '0' COMMENT '删除标记（0:可用 其他:已删除）',
     PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 9
@@ -480,7 +480,7 @@ CREATE TABLE `sys_user_role`
     `user_id`     bigint(20) NOT NULL DEFAULT '0' COMMENT '用户id',
     `create_time` timestamp  NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `update_time` timestamp  NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-    `is_deleted`  tinyint(3) NOT NULL DEFAULT '0' COMMENT '删除标记（0:可用 其他:已删除）',
+    `is_deleted`  bigint(20) NOT NULL DEFAULT '0' COMMENT '删除标记（0:可用 其他:已删除）',
     PRIMARY KEY (`id`),
     KEY `idx_role_id` (`role_id`),
     KEY `idx_admin_id` (`user_id`)
@@ -521,7 +521,7 @@ CREATE TABLE `sys_role`
     `description` varchar(255)         DEFAULT NULL COMMENT '描述',
     `create_time` timestamp   NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `update_time` timestamp   NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-    `is_deleted`  tinyint(3)  NOT NULL DEFAULT '0' COMMENT '删除标记（0:可用 其他:已删除）',
+    `is_deleted`  bigint(20)  NOT NULL DEFAULT '0' COMMENT '删除标记（0:可用 其他:已删除）',
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 9
@@ -548,7 +548,7 @@ CREATE TABLE `sys_role_menu`
     `menu_id`     bigint(11) NOT NULL DEFAULT '0',
     `create_time` timestamp  NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `update_time` timestamp  NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-    `is_deleted`  tinyint(3) NOT NULL DEFAULT '0' COMMENT '删除标记（0:可用 其他:已删除）',
+    `is_deleted`  bigint(20) NOT NULL DEFAULT '0' COMMENT '删除标记（0:可用 其他:已删除）',
     PRIMARY KEY (`id`),
     KEY `idx_role_id` (`role_id`),
     KEY `idx_menu_id` (`menu_id`)
@@ -613,7 +613,7 @@ CREATE TABLE `sys_user`
     `status`      tinyint(3)           DEFAULT NULL COMMENT '状态（1：正常 0：停用）',
     `create_time` timestamp   NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `update_time` timestamp   NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-    `is_deleted`  tinyint(3)  NOT NULL DEFAULT '0' COMMENT '删除标记（0:可用 其他:已删除）',
+    `is_deleted`  bigint(20)  NOT NULL DEFAULT '0' COMMENT '删除标记（0:可用 其他:已删除）',
     PRIMARY KEY (`id`),
     UNIQUE KEY `idx_username_is_deleted` (`username`, `is_deleted`)
 ) ENGINE = InnoDB
