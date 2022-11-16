@@ -52,11 +52,22 @@ public class SysMenu extends BaseEntity {
 	@TableField("status")
 	private Integer status;
 
-	// 下级列表
+	/**
+	 * 下级列表
+	 */
 	@TableField(exist = false)
 	private List<SysMenu> children;
-	//是否选中
+
+	/**
+	 * 是否选中
+	 */
 	@TableField(exist = false)
 	private boolean isSelect;
+
+	/**
+	 * 是否有子菜单
+	 */
+	@TableField(exist = false)
+	private boolean hasChildren;
 }
 
