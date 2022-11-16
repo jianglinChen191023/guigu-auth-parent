@@ -61,7 +61,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         return sysMenuList
                 .stream()
                 .collect(Collectors.groupingBy(SysMenu::getParentId))
-                .get(0);
+                .get(0L);
     }
 
 }

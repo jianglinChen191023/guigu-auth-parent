@@ -2,6 +2,7 @@ package com.atguigu.system;
 
 import com.atguigu.model.system.SysRole;
 import com.atguigu.system.mapper.SysRoleMapper;
+import com.atguigu.system.service.SysMenuService;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,13 +24,18 @@ public class ServiceAuthApplicationTest {
     @Autowired
     private SysRoleMapper sysRoleMapper;
 
+    @Autowired
+    private SysMenuService sysMenuService;
+
+
     /**
      * 根据 id 获取系统角色实体对象
      */
     @Test
     public void findSysRoleById() {
-        SysRole sysRole = sysRoleMapper.selectById(1L);
-        System.out.println(sysRole);
+        System.out.println(sysMenuService.getAll());
+//        SysRole sysRole = sysRoleMapper.selectById(1L);
+//        System.out.println(sysRole);
     }
 
     /**
