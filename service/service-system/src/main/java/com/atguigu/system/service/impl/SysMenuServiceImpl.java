@@ -70,19 +70,24 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
                 .map(SysRoleMenu::getMenuId)
                 .collect(Collectors.toList());
 
-        return MenuHelper.buildTree(baseMapper.selectList(
-                // 获取所有可用菜单 status=1
-                new LambdaQueryWrapper<SysMenu>()
-                        .eq(SysMenu::getStatus, 1)
+        return MenuHelper.buildTree(
+                baseMapper.selectList(
+                        // 获取所有可用菜单 status=1
+                        new LambdaQueryWrapper<SysMenu>()
+                                .eq(SysMenu::getStatus, 1)
+                )
+                        .stream()
+                        .peek(sysMenu -> {
+                            // 匹配该角色拥有的菜单
+                            if (menuIdList.contains(sysMenu.getId())) {
+                                sysMenu.setSelect(true);
+                            }
+                        })
+                        .collect(Collectors.toList())
         )
                 .stream()
-                .peek(sysMenu -> {
-                    // 匹配该角色拥有的菜单
-                    if (menuIdList.contains(sysMenu.getId())) {
-                        sysMenu.setSelect(true);
-                    }
-                })
-                .collect(Collectors.toList()));
+                .collect(Collectors.groupingBy(SysMenu::getParentId))
+                .get(0L);
     }
 
     @Override
