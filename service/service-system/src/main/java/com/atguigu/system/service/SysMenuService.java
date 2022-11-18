@@ -32,12 +32,12 @@ public interface SysMenuService extends IService<SysMenu> {
     List<SysMenu> getAll();
 
     /**
-     * 根据角色id获取菜单
+     * 根据角色id获取拥有的菜单id
      *
      * @param roleId 角色id
-     * @return {@link List}<{@link SysMenu}>
+     * @return {@link List}<{@link Long}>
      */
-    List<SysMenu> getMenuByRoleId(Long roleId);
+    List<Long> getMenuIdsByRoleId(Long roleId);
 
     /**
      * 给角色分配菜单权限

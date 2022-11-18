@@ -28,12 +28,12 @@ public class SysMenuController {
     @Autowired
     private SysMenuService sysMenuService;
 
-    @ApiOperation("根据角色id获取菜单")
-    @GetMapping("/getMenuByRoleId/{roleId}")
-    public Result<List<SysMenu>> getMenuByRoleId(
+    @ApiOperation("根据角色id获取拥有的菜单id")
+    @GetMapping("/getMenuIdsByRoleId/{roleId}")
+    public Result<List<Long>> getMenuIdsByRoleId(
             @PathVariable Long roleId
     ) {
-        return Result.ok(sysMenuService.getMenuByRoleId(roleId));
+        return Result.ok(sysMenuService.getMenuIdsByRoleId(roleId));
     }
 
     @ApiOperation("给角色分配菜单权限")
