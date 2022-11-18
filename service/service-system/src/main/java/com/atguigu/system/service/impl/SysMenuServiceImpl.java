@@ -60,7 +60,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     }
 
     @Override
-    public List<Long> getMenuIdsByRoleId(Long roleId) {
+    public List<SysMenu> getMenuListByRoleId(Long roleId) {
         // 根据角色id查询已经分配的菜单id
         List<Long> menuIdList = sysRoleMenuMapper.selectList(
                 new LambdaQueryWrapper<SysRoleMenu>()
@@ -70,7 +70,23 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
                 .map(SysRoleMenu::getMenuId)
                 .collect(Collectors.toList());
 
-        return menuIdList;
+        return MenuHelper.buildTree(
+                baseMapper.selectList(
+                        // 获取所有可用菜单 status=1
+                        new LambdaQueryWrapper<SysMenu>()
+                                .eq(SysMenu::getStatus, 1)
+                )
+                        .stream()
+                        .peek(sysMenu -> {
+                            if (menuIdList.contains(sysMenu.getId())) {
+                                sysMenu.setSelect(true);
+                            }
+                        })
+                        .collect(Collectors.toList())
+        )
+                .stream()
+                .collect(Collectors.groupingBy(SysMenu::getParentId))
+                .get(0L);
     }
 
     @Override

@@ -58,5 +58,11 @@ public class SysMenu extends BaseEntity {
 	@TableField(exist = false)
 	private List<SysMenu> children;
 
+	/**
+	 * 是否选中, 角色是否拥有该权限
+	 */
+	@TableField(exist = false)
+	private boolean isSelect;
+
 }
 
