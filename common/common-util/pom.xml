@@ -17,6 +17,12 @@
     </properties>
 
     <dependencies>
+        <!-- 集成 JWT -->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>com.atguigu</groupId>
             <artifactId>model</artifactId>

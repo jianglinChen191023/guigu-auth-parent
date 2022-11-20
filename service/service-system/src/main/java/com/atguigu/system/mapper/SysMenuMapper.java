@@ -2,6 +2,9 @@ package com.atguigu.system.mapper;
 
 import com.atguigu.model.system.SysMenu;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,11 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface SysMenuMapper extends BaseMapper<SysMenu> {
 
+    /**
+     * 根据用户id查询权限
+     *
+     * @param userId 用户id
+     * @return {@link List}<{@link SysMenu}>
+     */
+    List<SysMenu> selectMenuListUserId(@Param("userId") Long userId);
 }

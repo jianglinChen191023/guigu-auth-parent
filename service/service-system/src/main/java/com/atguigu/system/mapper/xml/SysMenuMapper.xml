@@ -2,4 +2,28 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.atguigu.system.mapper.SysMenuMapper">
 
+    <select id="selectMenuListUserId" resultType="com.atguigu.model.system.SysMenu">
+        SELECT DISTINCT m.id,
+                        m.parent_id,
+                        m.name,
+                        m.type,
+                        m.path,
+                        m.component,
+                        m.perms,
+                        m.icon,
+                        m.sort_value,
+                        m.status,
+                        m.create_time,
+                        m.update_time,
+                        m.is_deleted
+        FROM sys_menu m
+                 LEFT JOIN sys_role_menu rm ON m.id = rm.menu_id
+                 LEFT JOIN sys_user_role ur ON rm.role_id = ur.role_id
+        WHERE ur.user_id = #{userId}
+          AND m.status = 1
+          AND m.is_deleted = 0
+          AND rm.is_deleted = 0
+          AND ur.is_deleted = 0
+    </select>
+
 </mapper>

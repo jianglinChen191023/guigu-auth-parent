@@ -2,9 +2,11 @@ package com.atguigu.system.service.impl;
 
 import com.atguigu.common.result.ResultCodeEnum;
 import com.atguigu.common.utils.MenuHelper;
+import com.atguigu.common.utils.RouterHelper;
 import com.atguigu.model.system.SysMenu;
 import com.atguigu.model.system.SysRoleMenu;
 import com.atguigu.model.vo.AssginMenuVo;
+import com.atguigu.model.vo.RouterVo;
 import com.atguigu.system.exception.GuiguException;
 import com.atguigu.system.mapper.SysMenuMapper;
 import com.atguigu.system.mapper.SysRoleMenuMapper;
@@ -111,6 +113,48 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
                         })
                         .collect(Collectors.toList())
         );
+    }
+
+    @Override
+    public List<RouterVo> getUserMenuList(Long userId) {
+        // admin 是超级管理员, 操作所有
+        // 判断id值[{1: 超级管理员}, {其他: 普通用户}]
+        List<SysMenu> sysMenuList;
+        // 判断
+        if (userId.equals(1L)) {
+            sysMenuList = baseMapper.selectList(
+                    new LambdaQueryWrapper<SysMenu>()
+                            .eq(SysMenu::getStatus, 1)
+                            .orderByAsc(SysMenu::getSortValue)
+            );
+        } else {
+            // 根据用户id查询权限
+            sysMenuList = baseMapper.selectMenuListUserId(userId);
+        }
+
+        // 构建树形结构
+        List<SysMenu> sysMenuTreeList = MenuHelper.buildTree(sysMenuList);
+        // 转换成前端路由格式
+        return RouterHelper.buildRouters(sysMenuTreeList);
+    }
+
+    @Override
+    public List<String> getUserButtonList(Long userId) {
+        // admin 是超级管理员, 操作所有
+        // 判断id值[{1: 超级管理员}, {其他: 普通用户}]
+        List<SysMenu> sysMenuList;
+        // 判断
+        if (userId.equals(1L)) {
+            sysMenuList = baseMapper.selectList(
+                    new LambdaQueryWrapper<SysMenu>()
+                            .eq(SysMenu::getStatus, 1)
+            );
+        } else {
+            // 根据用户id查询权限
+            sysMenuList = baseMapper.selectMenuListUserId(userId);
+        }
+
+        return sysMenuList.stream().map(SysMenu::getPerms).collect(Collectors.toList());
     }
 
 }
