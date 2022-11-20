@@ -50,43 +50,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         List<SysMenu> sysMenuList = baseMapper.selectList(null);
 
         // 2. 封装子菜单
-        MenuHelper.buildTree(sysMenuList);
-
-        // 3. 返回一级菜单
-        return sysMenuList
-                .stream()
-                .collect(Collectors.groupingBy(SysMenu::getParentId))
-                .get(0L);
-    }
-
-    @Override
-    public List<SysMenu> getMenuListByRoleId(Long roleId) {
-        // 根据角色id查询已经分配的菜单id
-        List<Long> menuIdList = sysRoleMenuMapper.selectList(
-                new LambdaQueryWrapper<SysRoleMenu>()
-                        .eq(SysRoleMenu::getRoleId, roleId)
-        )
-                .stream()
-                .map(SysRoleMenu::getMenuId)
-                .collect(Collectors.toList());
-
-        return MenuHelper.buildTree(
-                baseMapper.selectList(
-                        // 获取所有可用菜单 status=1
-                        new LambdaQueryWrapper<SysMenu>()
-                                .eq(SysMenu::getStatus, 1)
-                )
-                        .stream()
-                        .peek(sysMenu -> {
-                            if (menuIdList.contains(sysMenu.getId())) {
-                                sysMenu.setSelect(true);
-                            }
-                        })
-                        .collect(Collectors.toList())
-        )
-                .stream()
-                .collect(Collectors.groupingBy(SysMenu::getParentId))
-                .get(0L);
+        return MenuHelper.buildTree(sysMenuList);
     }
 
     @Override
@@ -120,6 +84,33 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
                     // 添加
                     sysRoleMenuMapper.insert(sysRoleMenu);
                 });
+    }
+
+    @Override
+    public List<SysMenu> getMenuListByRoleId(Long roleId) {
+        // 根据角色id查询已经分配的菜单id
+        List<Long> menuIdList = sysRoleMenuMapper.selectList(
+                new LambdaQueryWrapper<SysRoleMenu>()
+                        .eq(SysRoleMenu::getRoleId, roleId)
+        )
+                .stream()
+                .map(SysRoleMenu::getMenuId)
+                .collect(Collectors.toList());
+
+        return MenuHelper.buildTree(
+                baseMapper.selectList(
+                        // 获取所有可用菜单 status=1
+                        new LambdaQueryWrapper<SysMenu>()
+                                .eq(SysMenu::getStatus, 1)
+                )
+                        .stream()
+                        .peek(sysMenu -> {
+                            if (menuIdList.contains(sysMenu.getId())) {
+                                sysMenu.setSelect(true);
+                            }
+                        })
+                        .collect(Collectors.toList())
+        );
     }
 
 }

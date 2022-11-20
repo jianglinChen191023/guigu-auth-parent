@@ -4,6 +4,7 @@ import com.atguigu.model.system.SysMenu;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 菜单工具类
@@ -31,11 +32,14 @@ public class MenuHelper {
 
                     // 添加子菜单
                     sysMenu.getChildren().add(sysMenuChildren);
+                    // 移除子菜单, 与父菜单是一对一关系, 找到即可删除
+                    sysMenuList.remove(sysMenuChildren);
                 }
             });
         });
 
-        return sysMenuList;
+        // 返回树形菜单
+        return sysMenuList.stream().collect(Collectors.groupingBy(SysMenu::getParentId)).get(0L);
     }
 
 }

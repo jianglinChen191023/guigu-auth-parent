@@ -28,7 +28,7 @@ public class SysMenuController {
     @Autowired
     private SysMenuService sysMenuService;
 
-    @ApiOperation("根据角色id获取拥有的菜单id")
+    @ApiOperation("根据角色id获取菜单")
     @GetMapping("/getMenuListByRoleId/{roleId}")
     public Result<List<SysMenu>> getMenuListByRoleId(
             @PathVariable Long roleId
