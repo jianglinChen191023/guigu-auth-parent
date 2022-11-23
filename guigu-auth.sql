@@ -603,7 +603,7 @@ CREATE TABLE `sys_user`
 (
     `id`          bigint(20)  NOT NULL AUTO_INCREMENT COMMENT '会员id',
     `username`    varchar(20) NOT NULL DEFAULT '' COMMENT '用户名',
-    `password`    varchar(32) NOT NULL DEFAULT '' COMMENT '密码',
+    `password`    varchar(255) NOT NULL DEFAULT '' COMMENT '密码',
     `name`        varchar(50)          DEFAULT NULL COMMENT '姓名',
     `phone`       varchar(11)          DEFAULT NULL COMMENT '手机',
     `head_url`    varchar(200)         DEFAULT NULL COMMENT '头像地址',
@@ -621,11 +621,11 @@ CREATE TABLE `sys_user`
   DEFAULT CHARSET = utf8mb4 COMMENT ='用户表';
 
 INSERT INTO `sys_user`
-VALUES (1, 'admin', '96e79218965eb72c92a549dd5a330112', 'admin', '15099909888',
+VALUES (1, 'admin', '$2a$10$ods1/2iEPBgm5uXUYWGALOUCZpP24H7tD0wXBfPhgt172PVNRFntO', 'admin', '15099909888',
         'http://r61cnlsfq.hn-bkt.clouddn.com/7daa4595-dfde-45da-8513-c5c2b81d20cc', 1021, 5, NULL, 1,
         '2021-05-31 18:08:43', '2022-05-25 11:34:25', 0),
-       (2, 'wangqq', '96e79218965eb72c92a549dd5a330112', '王倩倩', '15010546381',
+       (2, 'wangqq', '$2a$10$ods1/2iEPBgm5uXUYWGALOUCZpP24H7tD0wXBfPhgt172PVNRFntO', '王倩倩', '15010546381',
         'http://r61cnlsfq.hn-bkt.clouddn.com/b09b3467-3d99-437a-bd2e-dd8c9be92bb8', 1022, 6, NULL, 1,
         '2022-02-08 10:35:38', '2022-05-25 15:58:31', 0),
-       (3, 'wanggang', '96e79218965eb72c92a549dd5a330112', '王刚', '18909098909', NULL, 1024, 5, NULL, 0,
+       (3, 'wanggang', '$2a$10$ods1/2iEPBgm5uXUYWGALOUCZpP24H7tD0wXBfPhgt172PVNRFntO', '王刚', '18909098909', NULL, 1024, 5, NULL, 0,
         '2022-05-24 11:05:40', '2022-06-02 10:19:25', 0);

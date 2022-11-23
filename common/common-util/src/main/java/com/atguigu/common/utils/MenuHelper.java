@@ -32,8 +32,6 @@ public class MenuHelper {
 
                     // 添加子菜单
                     sysMenu.getChildren().add(sysMenuChildren);
-                    // 移除子菜单, 与父菜单是一对一关系, 找到即可删除
-                    sysMenuList.remove(sysMenuChildren);
                 }
             });
         });

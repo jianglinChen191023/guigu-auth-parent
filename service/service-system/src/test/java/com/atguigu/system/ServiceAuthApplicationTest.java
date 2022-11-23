@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Arrays;
 import java.util.List;
@@ -27,6 +28,13 @@ public class ServiceAuthApplicationTest {
     @Autowired
     private SysMenuService sysMenuService;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Test
+    public void passwordTest() {
+        System.out.println(passwordEncoder.encode("123456"));
+    }
 
     /**
      * 根据 id 获取系统角色实体对象
