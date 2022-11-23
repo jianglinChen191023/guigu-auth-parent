@@ -34,12 +34,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
-    @Override
-    protected AuthenticationManager authenticationManager() throws Exception {
-        return super.authenticationManager();
-    }
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         // 这是配置的关键，决定哪些接口开启防护，哪些接口绕过防护
