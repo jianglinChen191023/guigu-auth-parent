@@ -34,4 +34,12 @@ public interface SysUserService extends IService<SysUser> {
      * @return {@link Map}<{@link String}, {@link Object}>
      */
     Map<String, Object> getUserInfo(String username);
+
+    /**
+     * 根据用户名获取用户对象
+     *
+     * @param username 用户名
+     * @return {@link SysUser}
+     */
+    SysUser getByUsername(String username);
 }

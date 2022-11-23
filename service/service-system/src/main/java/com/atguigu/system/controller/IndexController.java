@@ -11,6 +11,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,6 +31,9 @@ public class IndexController {
     @Autowired
     private SysUserService sysUserService;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @ApiOperation("用户登录")
     @PostMapping("/login")
     public Result<Map<String, Object>> login(
@@ -43,15 +47,19 @@ public class IndexController {
 
         // 非空判断
         if (sysUser == null) {
-            throw new GuiguException(201, "用户不存在!");
+            throw new GuiguException(ResultCodeEnum.FAIL.getCode(), "用户不存在!");
         }
 
         // 判断密码是否一致
         String password = loginVo.getPassword();
+        String encode = passwordEncoder.encode(password);
+        if (encode.equals(sysUser.getPassword())) {
+            throw new GuiguException(ResultCodeEnum.FAIL.getCode(), "密码不一致!");
+        }
 
         // 判断用户是否可用
         if (sysUser.getStatus() == 0) {
-            throw new GuiguException(201, "用户已经被禁用!");
+            throw new GuiguException(ResultCodeEnum.FAIL.getCode(), "用户已经被禁用!");
         }
 
         // 根据用户id和用户名称生成 token 字符串，使用 map 返回

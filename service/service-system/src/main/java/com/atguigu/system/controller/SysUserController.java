@@ -10,6 +10,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,6 +31,9 @@ public class SysUserController {
     @Autowired
     private SysUserService sysUserService;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @ApiOperation("用户保存")
     @PostMapping("/save")
     public Result save(@RequestBody SysUser sysUser) {
@@ -48,6 +52,8 @@ public class SysUserController {
             return Result.fail().message("昵称已存在!");
         }
 
+        // 密码加密
+        sysUser.setPassword(passwordEncoder.encode(sysUser.getPassword()));
         if (sysUserService.save(sysUser)) {
             return Result.ok();
         } else {

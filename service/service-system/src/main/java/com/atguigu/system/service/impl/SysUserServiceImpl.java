@@ -60,4 +60,12 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         result.put("buttons", permsList);
         return result;
     }
+
+    @Override
+    public SysUser getByUsername(String username) {
+        return baseMapper.selectOne(
+                new LambdaQueryWrapper<SysUser>()
+                        .eq(SysUser::getUsername, username)
+        );
+    }
 }
