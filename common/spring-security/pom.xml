@@ -25,6 +25,7 @@
             <groupId>com.atguigu</groupId>
             <artifactId>common-util</artifactId>
             <version>1.0</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.atguigu</groupId>

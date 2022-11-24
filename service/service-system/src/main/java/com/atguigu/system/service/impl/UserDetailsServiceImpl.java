@@ -1,5 +1,6 @@
 package com.atguigu.system.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.atguigu.model.system.SysUser;
 import com.atguigu.system.custom.CustomUser;
 import com.atguigu.system.service.SysMenuService;
@@ -44,12 +45,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         List<String> userPermsList = sysMenuService.getUserButtonList(sysUser.getId());
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
         userPermsList.forEach(str -> {
-            log.info("userPermsList: " + str);
             if (!StringUtils.isEmpty(str)) {
                 authorities.add(new SimpleGrantedAuthority(str.trim()));
             }
         });
 
+        log.info(JSON.toJSONString(authorities));
         return new CustomUser(sysUser, authorities);
     }
 

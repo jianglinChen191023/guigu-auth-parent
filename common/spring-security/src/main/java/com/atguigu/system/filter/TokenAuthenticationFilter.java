@@ -58,15 +58,13 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         logger.info("token:" + token);
         if (!StringUtils.isEmpty(token)) {
             String username = JwtHelper.getUsername(token);
-            logger.info("useruame:" + username);
+            logger.info("username:" + username);
             if (!StringUtils.isEmpty(username)) {
                 // 权限
                 String authoritiesString = Objects.requireNonNull(redisTemplate.opsForValue().get(username)).toString();
                 List<Map> mapList = JSON.parseArray(authoritiesString, Map.class);
                 List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-                mapList.forEach(map -> {
-                    authorities.add(new SimpleGrantedAuthority(map.get("authority").toString()));
-                });
+                mapList.forEach(map -> authorities.add(new SimpleGrantedAuthority(map.get("authority").toString())));
 
                 return new UsernamePasswordAuthenticationToken(username, null, authorities);
             }
