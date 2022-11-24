@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Arrays;
@@ -31,9 +32,13 @@ public class ServiceAuthApplicationTest {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private RedisTemplate redisTemplate;
+
     @Test
     public void passwordTest() {
-        System.out.println(passwordEncoder.encode("123456"));
+        redisTemplate.opsForValue().set("1", "1");
+        System.out.println(redisTemplate.opsForValue().get("1"));
     }
 
     /**

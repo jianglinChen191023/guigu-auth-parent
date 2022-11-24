@@ -68,10 +68,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
      * 排除swagger相关请求
      *
      * @param web
-     * @throws Exception
      */
     @Override
-    public void configure(WebSecurity web) throws Exception {
+    public void configure(WebSecurity web) {
         web.ignoring().antMatchers("/favicon.ico", "/swagger-resources/**", "/webjars/**", "/v2/**", "/swagger-ui.html/**", "/doc.html");
     }
 }
