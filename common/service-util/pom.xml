@@ -17,6 +17,11 @@
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+            <scope>provided</scope>
+        </dependency>
         <!--引入Knife4j的官方start包,Swagger2基于Springfox2.10.5项目-->
         <dependency>
             <groupId>com.github.xiaoymin</groupId>

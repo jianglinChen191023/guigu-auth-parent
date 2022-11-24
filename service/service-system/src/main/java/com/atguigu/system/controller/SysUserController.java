@@ -10,6 +10,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,6 +35,7 @@ public class SysUserController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @PreAuthorize("hasAuthority('btn.sysUser.add')")
     @ApiOperation("用户保存")
     @PostMapping("/save")
     public Result save(@RequestBody SysUser sysUser) {
@@ -61,6 +63,7 @@ public class SysUserController {
         }
     }
 
+    @PreAuthorize("hasAuthority('btn.sysUser.update')")
     @ApiOperation("修改状态")
     @PutMapping("/updateStatus/{id}/{status}")
     public Result update(
@@ -76,6 +79,7 @@ public class SysUserController {
         }
     }
 
+    @PreAuthorize("hasAuthority('btn.sysUser.update')")
     @ApiOperation("用户修改")
     @PutMapping("/update")
     public Result update(@RequestBody SysUser sysUser) {
@@ -86,6 +90,7 @@ public class SysUserController {
         }
     }
 
+    @PreAuthorize("hasAuthority('btn.sysUser.list')")
     @ApiOperation("根据id获取用户信息")
     @GetMapping("/getById/{id}")
     public Result<SysUser> getById(
@@ -94,6 +99,7 @@ public class SysUserController {
         return Result.ok(sysUserService.getById(id));
     }
 
+    @PreAuthorize("hasAuthority('btn.sysUser.list')")
     @ApiOperation("分页查询")
     @GetMapping("/{page}/{limit}")
     public Result<IPage<SysUser>> getPage(
@@ -104,6 +110,7 @@ public class SysUserController {
         return Result.ok(sysUserService.getPage(new Page<>(page, limit), sysUserQueryVo));
     }
 
+    @PreAuthorize("hasAuthority('btn.sysUser.remove')")
     @ApiOperation("根据id删除")
     @DeleteMapping("/removeById/{id}")
     public Result removeById(
@@ -116,6 +123,7 @@ public class SysUserController {
         }
     }
 
+    @PreAuthorize("hasAuthority('btn.sysUser.remove')")
     @ApiOperation("批量删除")
     @DeleteMapping("/removeByIds")
     public Result removeByIds(

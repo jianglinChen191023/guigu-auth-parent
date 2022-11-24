@@ -8,6 +8,7 @@ import com.atguigu.system.service.SysMenuService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,6 +29,7 @@ public class SysMenuController {
     @Autowired
     private SysMenuService sysMenuService;
 
+    @PreAuthorize("hasAuthority('btn.sysMenu.list')")
     @ApiOperation("根据角色id获取菜单")
     @GetMapping("/getMenuListByRoleId/{roleId}")
     public Result<List<SysMenu>> getMenuListByRoleId(
@@ -36,6 +38,7 @@ public class SysMenuController {
         return Result.ok(sysMenuService.getMenuListByRoleId(roleId));
     }
 
+    @PreAuthorize("hasAuthority('btn.sysMenu.add')")
     @ApiOperation("给角色分配菜单权限")
     @PostMapping("/saveRoleMenu")
     public Result<List<SysMenu>> saveRoleMenu(
@@ -45,6 +48,7 @@ public class SysMenuController {
         return Result.ok();
     }
 
+    @PreAuthorize("hasAuthority('btn.sysMenu.add')")
     @ApiOperation("菜单保存")
     @PostMapping("/save")
     public Result save(@RequestBody SysMenu sysMenu) {
@@ -55,6 +59,7 @@ public class SysMenuController {
         }
     }
 
+    @PreAuthorize("hasAuthority('btn.sysMenu.update')")
     @ApiOperation("菜单修改")
     @PutMapping("/update")
     public Result update(@RequestBody SysMenu sysMenu) {
@@ -65,6 +70,7 @@ public class SysMenuController {
         }
     }
 
+    @PreAuthorize("hasAuthority('btn.sysMenu.list')")
     @ApiOperation("根据id获取菜单信息")
     @GetMapping("/getById/{id}")
     public Result<SysMenu> getById(
@@ -73,12 +79,14 @@ public class SysMenuController {
         return Result.ok(sysMenuService.getById(id));
     }
 
+    @PreAuthorize("hasAuthority('btn.sysMenu.list')")
     @ApiOperation("菜单列表(树形)")
     @GetMapping("/getAll")
     public Result<List<SysMenu>> getAll() {
         return Result.ok(sysMenuService.getAll());
     }
 
+    @PreAuthorize("hasAuthority('btn.sysMenu.remove')")
     @ApiOperation("根据id删除菜单")
     @DeleteMapping("/removeById/{id}")
     public Result removeById(

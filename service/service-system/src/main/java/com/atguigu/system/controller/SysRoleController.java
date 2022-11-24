@@ -11,6 +11,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,6 +29,7 @@ public class SysRoleController {
     @Autowired
     private SysRoleService sysRoleService;
 
+    @PreAuthorize("hasAuthority('btn.sysRole.list')")
     @ApiOperation(value = "根据用户id获取对应角色")
     @GetMapping("/getRolesByUserId/{userId}")
     public Result<Map<String, Object>> getRolesByUserId(
@@ -36,6 +38,7 @@ public class SysRoleController {
         return Result.ok(sysRoleService.getRolesByUserId(userId));
     }
 
+    @PreAuthorize("hasAuthority('btn.sysRole.add')")
     @ApiOperation(value = "给用户分配角色")
     @PostMapping("/doAssign")
     public Result<List<SysRole>> doAssign(
@@ -45,12 +48,14 @@ public class SysRoleController {
         return Result.ok();
     }
 
+    @PreAuthorize("hasAuthority('btn.sysRole.list')")
     @ApiOperation(value = "查询所有角色")
     @GetMapping("/findAll")
     public Result<List<SysRole>> findAll() {
         return Result.ok(sysRoleService.list());
     }
 
+    @PreAuthorize("hasAuthority('btn.sysRole.remove')")
     @ApiOperation(value = "逻辑删除")
     @DeleteMapping("/remove/{id}")
     public Result removeById(
@@ -63,6 +68,7 @@ public class SysRoleController {
         }
     }
 
+    @PreAuthorize("hasAuthority('btn.sysRole.list')")
     @ApiOperation(value = "条件分页查询")
     @GetMapping("/{page}/{limit}")
     public Result<IPage<SysRole>> findQueryRole(
@@ -73,6 +79,7 @@ public class SysRoleController {
         return Result.ok(sysRoleService.getPage(new Page<>(page, limit), sysRoleQueryVo));
     }
 
+    @PreAuthorize("hasAuthority('btn.sysRole.add')")
     @ApiOperation("角色添加")
     @PostMapping("/save")
     public Result saveRole(
@@ -95,6 +102,7 @@ public class SysRoleController {
         }
     }
 
+    @PreAuthorize("hasAuthority('btn.sysRole.update')")
     @ApiOperation("角色修改")
     @PutMapping("/update")
     public Result updateRole(
@@ -107,6 +115,7 @@ public class SysRoleController {
         }
     }
 
+    @PreAuthorize("hasAuthority('btn.sysRole.list')")
     @ApiOperation("根据id查询角色")
     @GetMapping("/findRoleById/{id}")
     public Result<SysRole> findRoleById(
@@ -115,6 +124,7 @@ public class SysRoleController {
         return Result.ok(sysRoleService.getById(id));
     }
 
+    @PreAuthorize("hasAuthority('btn.sysRole.remove')")
     @ApiOperation("批量删除")
     @DeleteMapping("/batchRemove")
     public Result batchRemove(

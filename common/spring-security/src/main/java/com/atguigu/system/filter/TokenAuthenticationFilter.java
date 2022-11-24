@@ -1,10 +1,13 @@
 package com.atguigu.system.filter;
 
+import com.alibaba.fastjson.JSON;
 import com.atguigu.common.result.Result;
 import com.atguigu.common.result.ResultCodeEnum;
 import com.atguigu.common.utils.JwtHelper;
 import com.atguigu.common.utils.ResponseUtil;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -14,7 +17,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Collections;
+import java.util.*;
 
 /**
  * 认证解析过滤器
@@ -23,8 +26,11 @@ import java.util.Collections;
  * @date 2022/11/23 00:23
  */
 public class TokenAuthenticationFilter extends OncePerRequestFilter {
-    public TokenAuthenticationFilter() {
 
+    private RedisTemplate redisTemplate;
+
+    public TokenAuthenticationFilter(RedisTemplate redisTemplate) {
+        this.redisTemplate = redisTemplate;
     }
 
     @Override
@@ -51,10 +57,18 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         String token = request.getHeader("token");
         logger.info("token:" + token);
         if (!StringUtils.isEmpty(token)) {
-            String useruame = JwtHelper.getUsername(token);
-            logger.info("useruame:" + useruame);
-            if (!StringUtils.isEmpty(useruame)) {
-                return new UsernamePasswordAuthenticationToken(useruame, null, Collections.emptyList());
+            String username = JwtHelper.getUsername(token);
+            logger.info("useruame:" + username);
+            if (!StringUtils.isEmpty(username)) {
+                // 权限
+                String authoritiesString = Objects.requireNonNull(redisTemplate.opsForValue().get(username)).toString();
+                List<Map> mapList = JSON.parseArray(authoritiesString, Map.class);
+                List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+                mapList.forEach(map -> {
+                    authorities.add(new SimpleGrantedAuthority(map.get("authority").toString()));
+                });
+
+                return new UsernamePasswordAuthenticationToken(username, null, authorities);
             }
         }
 
