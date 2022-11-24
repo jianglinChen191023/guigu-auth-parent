@@ -4,12 +4,14 @@ import com.atguigu.model.system.SysUser;
 import com.atguigu.system.custom.CustomUser;
 import com.atguigu.system.service.SysMenuService;
 import com.atguigu.system.service.SysUserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +21,7 @@ import java.util.List;
  * @date 2022/11/23 00:11
  */
 @Component
+@Slf4j
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
@@ -40,9 +43,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         List<String> userPermsList = sysMenuService.getUserButtonList(sysUser.getId());
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        for (String perm : userPermsList) {
-            authorities.add(new SimpleGrantedAuthority(perm.trim()));
-        }
+        userPermsList.forEach(str -> {
+            log.info("userPermsList: " + str);
+            if (!StringUtils.isEmpty(str)) {
+                authorities.add(new SimpleGrantedAuthority(str.trim()));
+            }
+        });
 
         return new CustomUser(sysUser, authorities);
     }
