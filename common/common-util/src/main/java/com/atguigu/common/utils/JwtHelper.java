@@ -38,8 +38,9 @@ public class JwtHelper {
 
         return Jwts.builder()
                 .setSubject("AUTH-USER")
-                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION))
+                // 先调用setClaims， 在调用setExpiration
                 .setClaims(map)
+                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION * 1000))
                 .signWith(SignatureAlgorithm.HS512, SECRET)
                 // 压缩字符串, 变成一行
                 .compressWith(CompressionCodecs.GZIP)
