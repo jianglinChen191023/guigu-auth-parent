@@ -99,7 +99,7 @@ public class TokenLoginFilter extends UsernamePasswordAuthenticationFilter {
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,
                                               AuthenticationException e) {
         if (e.getCause() instanceof RuntimeException) {
-            ResponseUtil.out(response, Result.build(null, 205, e.getMessage()));
+            ResponseUtil.out(response, Result.build(null, 204, e.getMessage()));
         } else {
             ResponseUtil.out(response, Result.build(null, ResultCodeEnum.LOGIN_MOBLE_ERROR));
         }
