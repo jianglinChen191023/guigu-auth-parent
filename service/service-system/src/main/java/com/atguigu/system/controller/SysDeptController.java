@@ -68,8 +68,8 @@ public class SysDeptController {
 
     @PreAuthorize("hasAuthority('btn.sysDept.remove')")
     @ApiOperation(value = "删除")
-    @DeleteMapping("/remove/{id}")
-    public Result remove(
+    @DeleteMapping("/removeById/{id}")
+    public Result removeById(
             @PathVariable Long id
     ) {
         if (sysDeptService.removeById(id)) {
