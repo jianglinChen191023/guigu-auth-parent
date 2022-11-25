@@ -4,15 +4,13 @@ package com.atguigu.system.controller;
 import com.atguigu.common.result.Result;
 import com.atguigu.model.system.SysDept;
 import com.atguigu.system.service.SysDeptService;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
+import java.util.List;
 
 /**
  * <p>
@@ -57,13 +55,10 @@ public class SysDeptController {
     }
 
     @PreAuthorize("hasAuthority('btn.sysDept.list')")
-    @ApiOperation(value = "条件分页查询")
-    @GetMapping("/{page}/{limit}")
-    public Result<IPage<Map<String, Object>>> getPage(
-            @PathVariable Long page,
-            @PathVariable Long limit
-    ) {
-        return Result.ok(sysDeptService.pageMaps(new Page<>(page, limit)));
+    @ApiOperation(value = "列表(树形)")
+    @GetMapping("/getAll")
+    public Result<List<SysDept>> getAll() {
+        return Result.ok(sysDeptService.getAll());
     }
 
     @PreAuthorize("hasAuthority('btn.sysDept.remove')")

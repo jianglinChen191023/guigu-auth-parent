@@ -1,12 +1,13 @@
 package com.atguigu.system.service.impl;
 
+import com.atguigu.common.utils.DeptHelper;
 import com.atguigu.model.system.SysDept;
 import com.atguigu.system.mapper.SysDeptMapper;
 import com.atguigu.system.service.SysDeptService;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * <p>
@@ -18,5 +19,11 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> implements SysDeptService {
+
+    @Override
+    public List<SysDept> getAll() {
+        List<SysDept> sysDeptList = baseMapper.selectList(null);
+        return DeptHelper.buildTree(sysDeptList);
+    }
 
 }
