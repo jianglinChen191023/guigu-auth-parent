@@ -55,6 +55,15 @@ public class SysDeptController {
     }
 
     @PreAuthorize("hasAuthority('btn.sysDept.list')")
+    @ApiOperation(value = "根据id获取数据")
+    @GetMapping("/getById/{id}")
+    public Result<List<SysDept>> getById(
+            @PathVariable Long id
+    ) {
+        return Result.ok(sysDeptService.getById(id));
+    }
+
+    @PreAuthorize("hasAuthority('btn.sysDept.list')")
     @ApiOperation(value = "列表(树形)")
     @GetMapping("/getAll")
     public Result<List<SysDept>> getAll() {
