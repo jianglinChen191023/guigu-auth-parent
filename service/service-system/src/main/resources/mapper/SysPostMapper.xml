@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atguigu.system.mapper.SysPostMapper">
+
+    <select id="selectPage" resultType="com.atguigu.model.system.SysPost">
+        select id,
+        post_code,
+        name,
+        description,
+        status,
+        create_time,
+        update_time,
+        is_deleted
+        from sys_post
+        <where>
+            <if test="vo.name != null and vo.name != ''">
+                and name = #{vo.name}
+            </if>
+            <if test="vo.postCode != null and vo.postCode != ''">
+                and post_code = #{vo.postCode}
+            </if>
+            <if test="vo.status != null and vo.status != ''">
+                and status = #{vo.status}
+            </if>
+            and is_deleted = 0
+        </where>
+
+    </select>
+</mapper>

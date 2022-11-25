@@ -2,52 +2,53 @@ package com.atguigu.system.controller;
 
 
 import com.atguigu.common.result.Result;
-import com.atguigu.model.system.SysDept;
-import com.atguigu.system.service.SysDeptService;
+import com.atguigu.model.system.SysPost;
+import com.atguigu.model.vo.SysPostQueryVo;
+import com.atguigu.system.service.SysPostService;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 /**
  * <p>
- * 组织机构 前端控制器
+ * 岗位信息表 前端控制器
  * </p>
  *
  * @author 陈江林
  * @since 2022-11-25
  */
-@Api(tags = "部门管理接口")
+@Api(tags = "岗位管理接口")
 @RestController
-@RequestMapping("/admin/system/sysDept")
-public class SysDeptController {
+@RequestMapping("/admin/system/sysPost")
+public class SysPostController {
 
     @Autowired
-    private SysDeptService sysDeptService;
+    private SysPostService sysPostService;
 
-    @PreAuthorize("hasAuthority('btn.sysDept.add')")
+    @PreAuthorize("hasAuthority('btn.sysPost.add')")
     @ApiOperation(value = "保存")
     @PostMapping("/save")
     public Result save(
-            @RequestBody SysDept sysDept
+            @RequestBody SysPost sysPost
     ) {
-        if (sysDeptService.save(sysDept)) {
+        if (sysPostService.save(sysPost)) {
             return Result.ok();
         } else {
             return Result.fail();
         }
     }
 
-    @PreAuthorize("hasAuthority('btn.sysDept.update')")
+    @PreAuthorize("hasAuthority('btn.sysPost.update')")
     @ApiOperation(value = "修改")
     @PutMapping("/update")
     public Result update(
-            @RequestBody SysDept sysDept
+            @RequestBody SysPost sysPost
     ) {
-        if (sysDeptService.updateById(sysDept)) {
+        if (sysPostService.updateById(sysPost)) {
             return Result.ok();
         } else {
             return Result.fail();
@@ -61,38 +62,42 @@ public class SysDeptController {
             @PathVariable Long id,
             @PathVariable Integer status
     ) {
-        SysDept sysDept = sysDeptService.getById(id);
-        sysDept.setStatus(status);
-        if (sysDeptService.updateById(sysDept)) {
+        SysPost sysPost = sysPostService.getById(id);
+        sysPost.setStatus(status);
+        if (sysPostService.updateById(sysPost)) {
             return Result.ok();
         } else {
             return Result.fail();
         }
     }
 
-    @PreAuthorize("hasAuthority('btn.sysDept.list')")
+    @PreAuthorize("hasAuthority('btn.sysPost.list')")
     @ApiOperation(value = "根据id获取数据")
     @GetMapping("/getById/{id}")
-    public Result<SysDept> getById(
+    public Result<SysPost> getById(
             @PathVariable Long id
     ) {
-        return Result.ok(sysDeptService.getById(id));
+        return Result.ok(sysPostService.getById(id));
     }
 
-    @PreAuthorize("hasAuthority('btn.sysDept.list')")
-    @ApiOperation(value = "列表(树形)")
-    @GetMapping("/getAll")
-    public Result<List<SysDept>> getAll() {
-        return Result.ok(sysDeptService.getAll());
+    @PreAuthorize("hasAuthority('btn.sysPost.list')")
+    @ApiOperation(value = "分页查询")
+    @GetMapping("/{page}/{limit}")
+    public Result<IPage<SysPost>> getPage(
+            @PathVariable Long page,
+            @PathVariable Long limit,
+            SysPostQueryVo sysPostQueryVo
+    ) {
+        return Result.ok(sysPostService.getPage(new Page<>(page, limit), sysPostQueryVo));
     }
 
-    @PreAuthorize("hasAuthority('btn.sysDept.remove')")
+    @PreAuthorize("hasAuthority('btn.sysPost.remove')")
     @ApiOperation(value = "删除")
     @DeleteMapping("/removeById/{id}")
     public Result removeById(
             @PathVariable Long id
     ) {
-        if (sysDeptService.removeById(id)) {
+        if (sysPostService.removeById(id)) {
             return Result.ok();
         } else {
             return Result.fail();

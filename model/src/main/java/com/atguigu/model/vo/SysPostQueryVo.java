@@ -12,8 +12,7 @@ public class SysPostQueryVo {
 	private String name;
 
 	//@ApiModelProperty(value = "状态（1正常 0停用）")
-	private Boolean status;
-
+	private Integer status;
 
 }
 
