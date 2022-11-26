@@ -19,7 +19,8 @@
             <if test="vo.postCode != null and vo.postCode != ''">
                 and post_code = #{vo.postCode}
             </if>
-            <if test="vo.status != null and vo.status != ''">
+            /* Integer 类型只做null判断 */
+            <if test="vo.status != null">
                 and status = #{vo.status}
             </if>
             and is_deleted = 0
