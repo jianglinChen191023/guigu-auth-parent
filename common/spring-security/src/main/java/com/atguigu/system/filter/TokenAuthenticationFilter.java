@@ -59,9 +59,10 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         if (!StringUtils.isEmpty(token)) {
             String username = JwtHelper.getUsername(token);
             logger.info("username:" + username);
-            if (!StringUtils.isEmpty(username)) {
+            Object authoritiesObj = redisTemplate.opsForValue().get(username);
+            if (!StringUtils.isEmpty(username) && null != authoritiesObj) {
                 // 权限
-                String authoritiesString = Objects.requireNonNull(redisTemplate.opsForValue().get(username)).toString();
+                String authoritiesString = authoritiesObj.toString();
                 List<Map> mapList = JSON.parseArray(authoritiesString, Map.class);
                 List<SimpleGrantedAuthority> authorities = new ArrayList<>();
                 mapList.forEach(map -> authorities.add(new SimpleGrantedAuthority(map.get("authority").toString())));
