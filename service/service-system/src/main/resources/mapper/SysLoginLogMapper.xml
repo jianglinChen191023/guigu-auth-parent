@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atguigu.system.mapper.SysLoginLogMapper">
+
+    <select id="selectPage" resultType="com.atguigu.model.system.SysLoginLog">
+        select id,
+        username,
+        ipaddr,
+        status,
+        msg,
+        access_time,
+        create_time,
+        update_time,
+        is_deleted
+        from sys_login_log
+        <where>
+            <if test="vo.username != null and vo.username != ''">
+                username = #{vo.username}
+            </if>
+            <if test="vo.createTimeBegin != null and vo.createTimeBegin != ''">
+                and create_time >= #{vo.createTimeBegin}
+            </if>
+            <if test="vo.createTimeEnd != null and vo.createTimeEnd != ''">
+                and create_time &lt;= #{vo.createTimeEnd}
+            </if>
+            and is_deleted = 0
+        </where>
+        order by create_time desc
+    </select>
+</mapper>
