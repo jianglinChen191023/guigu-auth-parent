@@ -22,7 +22,7 @@ import javax.annotation.Resource;
  * @author 陈江林
  * @date 2022/11/27 01:11
  */
-@Api(tags = "SysLoginLog管理")
+@Api(tags = "登录日志接口")
 @RestController
 @RequestMapping(value = "/admin/system/sysLoginLog")
 public class SysLoginLogController {

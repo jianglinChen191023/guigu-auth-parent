@@ -4,6 +4,8 @@ import com.atguigu.common.result.Result;
 import com.atguigu.model.system.SysRole;
 import com.atguigu.model.vo.AssginRoleVo;
 import com.atguigu.model.vo.SysRoleQueryVo;
+import com.atguigu.system.annotation.Log;
+import com.atguigu.system.enums.BusinessType;
 import com.atguigu.system.service.SysRoleService;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -38,6 +40,7 @@ public class SysRoleController {
         return Result.ok(sysRoleService.getRolesByUserId(userId));
     }
 
+    @Log(title = "角色管理", businessType = BusinessType.INSERT)
     @PreAuthorize("hasAuthority('btn.sysRole.add')")
     @ApiOperation(value = "给用户分配角色")
     @PostMapping("/doAssign")
@@ -55,6 +58,7 @@ public class SysRoleController {
         return Result.ok(sysRoleService.list());
     }
 
+    @Log(title = "角色管理", businessType = BusinessType.DELETE)
     @PreAuthorize("hasAuthority('btn.sysRole.remove')")
     @ApiOperation(value = "逻辑删除")
     @DeleteMapping("/remove/{id}")
@@ -79,6 +83,7 @@ public class SysRoleController {
         return Result.ok(sysRoleService.getPage(new Page<>(page, limit), sysRoleQueryVo));
     }
 
+    @Log(title = "角色管理", businessType = BusinessType.INSERT)
     @PreAuthorize("hasAuthority('btn.sysRole.add')")
     @ApiOperation("角色添加")
     @PostMapping("/save")
@@ -102,6 +107,7 @@ public class SysRoleController {
         }
     }
 
+    @Log(title = "角色管理", businessType = BusinessType.UPDATE)
     @PreAuthorize("hasAuthority('btn.sysRole.update')")
     @ApiOperation("角色修改")
     @PutMapping("/update")
@@ -124,6 +130,7 @@ public class SysRoleController {
         return Result.ok(sysRoleService.getById(id));
     }
 
+    @Log(title = "角色管理", businessType = BusinessType.DELETE)
     @PreAuthorize("hasAuthority('btn.sysRole.remove')")
     @ApiOperation("批量删除")
     @DeleteMapping("/batchRemove")
