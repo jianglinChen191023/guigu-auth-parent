@@ -2,6 +2,7 @@ package com.atguigu.system.config;
 
 import com.atguigu.system.filter.TokenAuthenticationFilter;
 import com.atguigu.system.filter.TokenLoginFilter;
+import com.atguigu.system.service.LoginLogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,6 +32,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private RedisTemplate redisTemplate;
 
+    @Autowired
+    private LoginLogService loginLogService;
+
     /**
      * 加密方式
      *
@@ -57,7 +61,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 // TokenAuthenticationFilter放到UsernamePasswordAuthenticationFilter的前面，这样做就是为了除了登录的时候去查询数据库外，其他时候都用token进行认证。
                 .addFilterBefore(new TokenAuthenticationFilter(redisTemplate), UsernamePasswordAuthenticationFilter.class)
-                .addFilter(new TokenLoginFilter(authenticationManager(), redisTemplate));
+                .addFilter(new TokenLoginFilter(authenticationManager(), redisTemplate, loginLogService));
 
         // 禁用session
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
