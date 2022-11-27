@@ -5,7 +5,7 @@ server:
 spring:
   # 服务名
   application:
-    name: service-gateway-1
+    name: service-gateway-1128
   # nacos服务地址
   cloud:
     nacos:

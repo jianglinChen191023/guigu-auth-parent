@@ -9,13 +9,14 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>service_gateway</artifactId>
-    <packaging>jar</packaging>
+    <artifactId>service-gateway</artifactId>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
     </properties>
+
+    <packaging>jar</packaging>
 
     <dependencies>
         <!-- 网关 -->
