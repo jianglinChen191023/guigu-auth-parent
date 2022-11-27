@@ -22,7 +22,7 @@ public interface SystemRemoteService {
      * @param sysLoginLog 系统登录日志对象
      * @return {@link Result}
      */
-    @PostMapping("/save")
+    @PostMapping("/api/system/sysLoginLog/save")
     Result saveLoginLog(@RequestBody SysLoginLog sysLoginLog);
 
 }
