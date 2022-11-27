@@ -12,7 +12,6 @@
         <module>common</module>
         <module>model</module>
         <module>service</module>
-        <module>service_gateway</module>
         <module>service-api</module>
         <module>service-gateway</module>
     </modules>
