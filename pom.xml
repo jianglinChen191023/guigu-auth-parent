@@ -12,6 +12,8 @@
         <module>common</module>
         <module>model</module>
         <module>service</module>
+        <module>service_gateway</module>
+        <module>service-api</module>
     </modules>
 
     <properties>
@@ -26,6 +28,9 @@
         <fastjson.version>1.2.29</fastjson.version>
         <mybatis-plus-generator.version>3.4.1</mybatis-plus-generator.version>
         <velocity-engine-core.version>2.0</velocity-engine-core.version>
+
+        <cloud.version>Hoxton.RELEASE</cloud.version>
+        <alibaba.version>2.2.0.RELEASE</alibaba.version>
     </properties>
 
     <parent>
@@ -37,6 +42,20 @@
     <!--配置dependencyManagement锁定依赖的版本-->
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>${alibaba.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
             <!-- 代码生成器 -->
             <dependency>
                 <groupId>com.baomidou</groupId>

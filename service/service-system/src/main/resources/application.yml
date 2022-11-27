@@ -9,3 +9,8 @@ spring:
     time-zone: GMT+8
   redis:
     host: 127.0.0.1
+  cloud:
+    nacos:
+      discovery:
+        # nacos 服务地址
+        server-addr: 127.0.0.1:8848

@@ -3,13 +3,13 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>common</artifactId>
+        <artifactId>guigu-auth-parent</artifactId>
         <groupId>com.atguigu</groupId>
         <version>1.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>spring-security</artifactId>
+    <artifactId>service-api</artifactId>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
@@ -17,35 +17,27 @@
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>com.atguigu</groupId>
-            <artifactId>service-api</artifactId>
-            <version>1.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-redis</artifactId>
-        </dependency>
+        <!-- 公共 -->
         <dependency>
             <groupId>com.atguigu</groupId>
             <artifactId>common-util</artifactId>
             <version>1.0</version>
-            <scope>provided</scope>
         </dependency>
+        <!-- 实体 -->
         <dependency>
             <groupId>com.atguigu</groupId>
             <artifactId>model</artifactId>
             <version>1.0</version>
         </dependency>
-        <!-- Spring Security依赖 -->
+        <!-- 服务调用 -->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
+        <!-- 整合 Hystrix -->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-            <scope>provided</scope>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
         </dependency>
     </dependencies>
 
