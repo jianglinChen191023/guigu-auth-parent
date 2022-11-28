@@ -38,10 +38,15 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
             throws IOException, ServletException {
         String requestURI = request.getRequestURI();
         logger.info("uri:" + requestURI);
-        // 如果是登录接口，直接放行
-        // 或保存登录日志
-        if ("/admin/system/index/login".equals(requestURI)
-                || "/api/system/sysLoginLog/save".equals(requestURI)) {
+        // 请求白名单
+        List<String> list = new ArrayList<>();
+        // 登录接口
+        list.add("/admin/system/index/login");
+        // 保存登录日志
+        list.add("/api/system/sysLoginLog/save");
+
+        // 如果是登录接口，或保存登录日志...直接放行
+        if (list.contains(requestURI)) {
             chain.doFilter(request, response);
             return;
         }
