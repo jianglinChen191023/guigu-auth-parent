@@ -1,11 +1,13 @@
 package com.atguigu.system.controller;
 
 import com.atguigu.common.result.Result;
+import com.atguigu.model.system.SysMenu;
 import com.atguigu.model.system.SysRole;
-import com.atguigu.model.vo.AssginRoleVo;
+import com.atguigu.model.vo.AssginMenuVo;
 import com.atguigu.model.vo.SysRoleQueryVo;
 import com.atguigu.system.annotation.Log;
 import com.atguigu.system.enums.BusinessType;
+import com.atguigu.system.service.SysMenuService;
 import com.atguigu.system.service.SysRoleService;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -31,6 +33,20 @@ public class SysRoleController {
     @Autowired
     private SysRoleService sysRoleService;
 
+    @Autowired
+    private SysMenuService sysMenuService;
+
+    @Log(title = "角色管理", businessType = BusinessType.ASSGIN)
+    @PreAuthorize("hasAuthority('btn.sysRole.assignAuth')")
+    @ApiOperation("给角色分配菜单权限")
+    @PostMapping("/saveRoleMenu")
+    public Result<List<SysMenu>> saveRoleMenu(
+            @RequestBody AssginMenuVo assginMenuVo
+    ) {
+        sysMenuService.saveRoleMenu(assginMenuVo);
+        return Result.ok();
+    }
+
     @PreAuthorize("hasAuthority('btn.sysRole.list')")
     @ApiOperation(value = "根据用户id获取对应角色")
     @GetMapping("/getRolesByUserId/{userId}")
@@ -38,17 +54,6 @@ public class SysRoleController {
             @PathVariable Long userId
     ) {
         return Result.ok(sysRoleService.getRolesByUserId(userId));
-    }
-
-    @Log(title = "角色管理", businessType = BusinessType.INSERT)
-    @PreAuthorize("hasAuthority('btn.sysRole.add')")
-    @ApiOperation(value = "给用户分配角色")
-    @PostMapping("/doAssign")
-    public Result<List<SysRole>> doAssign(
-            @RequestBody AssginRoleVo assginRoleVo
-    ) {
-        sysRoleService.doAssign(assginRoleVo);
-        return Result.ok();
     }
 
     @PreAuthorize("hasAuthority('btn.sysRole.list')")

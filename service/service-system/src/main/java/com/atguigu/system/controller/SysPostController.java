@@ -4,6 +4,8 @@ package com.atguigu.system.controller;
 import com.atguigu.common.result.Result;
 import com.atguigu.model.system.SysPost;
 import com.atguigu.model.vo.SysPostQueryVo;
+import com.atguigu.system.annotation.Log;
+import com.atguigu.system.enums.BusinessType;
 import com.atguigu.system.service.SysPostService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -29,6 +31,7 @@ public class SysPostController {
     @Autowired
     private SysPostService sysPostService;
 
+    @Log(title = "岗位管理", businessType = BusinessType.INSERT)
     @PreAuthorize("hasAuthority('btn.sysPost.add')")
     @ApiOperation(value = "保存")
     @PostMapping("/save")
@@ -42,6 +45,7 @@ public class SysPostController {
         }
     }
 
+    @Log(title = "岗位管理", businessType = BusinessType.UPDATE)
     @PreAuthorize("hasAuthority('btn.sysPost.update')")
     @ApiOperation(value = "修改")
     @PutMapping("/update")
@@ -55,6 +59,7 @@ public class SysPostController {
         }
     }
 
+    @Log(title = "岗位管理", businessType = BusinessType.STATUS)
     @PreAuthorize("hasAuthority('btn.sysPost.update')")
     @ApiOperation(value = "修改状态")
     @PutMapping("/update/{id}/{status}")
@@ -91,6 +96,7 @@ public class SysPostController {
         return Result.ok(sysPostService.getPage(new Page<>(page, limit), sysPostQueryVo));
     }
 
+    @Log(title = "岗位管理", businessType = BusinessType.DELETE)
     @PreAuthorize("hasAuthority('btn.sysPost.remove')")
     @ApiOperation(value = "删除")
     @DeleteMapping("/removeById/{id}")

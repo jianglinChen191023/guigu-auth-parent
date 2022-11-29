@@ -3,6 +3,8 @@ package com.atguigu.system.controller;
 
 import com.atguigu.common.result.Result;
 import com.atguigu.model.system.SysDept;
+import com.atguigu.system.annotation.Log;
+import com.atguigu.system.enums.BusinessType;
 import com.atguigu.system.service.SysDeptService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -28,6 +30,7 @@ public class SysDeptController {
     @Autowired
     private SysDeptService sysDeptService;
 
+    @Log(title = "部门管理", businessType = BusinessType.INSERT)
     @PreAuthorize("hasAuthority('btn.sysDept.add')")
     @ApiOperation(value = "保存")
     @PostMapping("/save")
@@ -41,6 +44,7 @@ public class SysDeptController {
         }
     }
 
+    @Log(title = "部门管理", businessType = BusinessType.UPDATE)
     @PreAuthorize("hasAuthority('btn.sysDept.update')")
     @ApiOperation(value = "修改")
     @PutMapping("/update")
@@ -54,6 +58,7 @@ public class SysDeptController {
         }
     }
 
+    @Log(title = "部门管理", businessType = BusinessType.STATUS)
     @PreAuthorize("hasAuthority('btn.sysPost.update')")
     @ApiOperation(value = "修改状态")
     @PutMapping("/update/{id}/{status}")
@@ -86,6 +91,7 @@ public class SysDeptController {
         return Result.ok(sysDeptService.getAll());
     }
 
+    @Log(title = "部门管理", businessType = BusinessType.DELETE)
     @PreAuthorize("hasAuthority('btn.sysDept.remove')")
     @ApiOperation(value = "删除")
     @DeleteMapping("/removeById/{id}")

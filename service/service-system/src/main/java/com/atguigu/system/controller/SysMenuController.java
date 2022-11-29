@@ -3,7 +3,8 @@ package com.atguigu.system.controller;
 
 import com.atguigu.common.result.Result;
 import com.atguigu.model.system.SysMenu;
-import com.atguigu.model.vo.AssginMenuVo;
+import com.atguigu.system.annotation.Log;
+import com.atguigu.system.enums.BusinessType;
 import com.atguigu.system.service.SysMenuService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -38,16 +39,7 @@ public class SysMenuController {
         return Result.ok(sysMenuService.getMenuListByRoleId(roleId));
     }
 
-    @PreAuthorize("hasAuthority('btn.sysMenu.add')")
-    @ApiOperation("给角色分配菜单权限")
-    @PostMapping("/saveRoleMenu")
-    public Result<List<SysMenu>> saveRoleMenu(
-            @RequestBody AssginMenuVo assginMenuVo
-    ) {
-        sysMenuService.saveRoleMenu(assginMenuVo);
-        return Result.ok();
-    }
-
+    @Log(title = "菜单管理", businessType = BusinessType.INSERT)
     @PreAuthorize("hasAuthority('btn.sysMenu.add')")
     @ApiOperation("菜单保存")
     @PostMapping("/save")
@@ -59,6 +51,7 @@ public class SysMenuController {
         }
     }
 
+    @Log(title = "菜单管理", businessType = BusinessType.UPDATE)
     @PreAuthorize("hasAuthority('btn.sysMenu.update')")
     @ApiOperation("菜单修改")
     @PutMapping("/update")
@@ -86,6 +79,7 @@ public class SysMenuController {
         return Result.ok(sysMenuService.getAll());
     }
 
+    @Log(title = "菜单管理", businessType = BusinessType.DELETE)
     @PreAuthorize("hasAuthority('btn.sysMenu.remove')")
     @ApiOperation("根据id删除菜单")
     @DeleteMapping("/removeById/{id}")
