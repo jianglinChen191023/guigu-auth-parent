@@ -75,6 +75,9 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
             // 是否在其他客户端登录，当前请求的 token 是否与服务器 redis 中 token 一致
             Object redisToken = redisTemplate.opsForValue().get(JwtHelper.TOKEN_PREFIX + username);
+            logger.info("redisToken: " + redisToken);
+            logger.info("token: " + token);
+            logger.info("token-redis: " + (!token.equals(redisToken)));
             if (!token.equals(redisToken)) {
                 ResponseUtil.out(response, Result.build(null, ResultCodeEnum.OTHER_CLIENTS_LOGGED_IN));
                 return;
