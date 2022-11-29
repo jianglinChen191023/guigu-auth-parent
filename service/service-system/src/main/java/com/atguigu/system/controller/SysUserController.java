@@ -1,8 +1,13 @@
 package com.atguigu.system.controller;
 
 import com.atguigu.common.result.Result;
+import com.atguigu.model.system.SysRole;
 import com.atguigu.model.system.SysUser;
+import com.atguigu.model.vo.AssginRoleVo;
 import com.atguigu.model.vo.SysUserQueryVo;
+import com.atguigu.system.annotation.Log;
+import com.atguigu.system.enums.BusinessType;
+import com.atguigu.system.service.SysRoleService;
 import com.atguigu.system.service.SysUserService;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -35,6 +40,21 @@ public class SysUserController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private SysRoleService sysRoleService;
+
+    @Log(title = "用户管理", businessType = BusinessType.ASSGIN)
+    @PreAuthorize("hasAuthority('btn.sysUser.assignRole')")
+    @ApiOperation(value = "给用户分配角色")
+    @PostMapping("/doAssign")
+    public Result<List<SysRole>> doAssign(
+            @RequestBody AssginRoleVo assginRoleVo
+    ) {
+        sysRoleService.doAssign(assginRoleVo);
+        return Result.ok();
+    }
+
+    @Log(title = "用户管理", businessType = BusinessType.INSERT)
     @PreAuthorize("hasAuthority('btn.sysUser.add')")
     @ApiOperation("用户保存")
     @PostMapping("/save")
@@ -63,6 +83,7 @@ public class SysUserController {
         }
     }
 
+    @Log(title = "用户管理", businessType = BusinessType.STATUS)
     @PreAuthorize("hasAuthority('btn.sysUser.update')")
     @ApiOperation("修改状态")
     @PutMapping("/updateStatus/{id}/{status}")
@@ -79,6 +100,7 @@ public class SysUserController {
         }
     }
 
+    @Log(title = "用户管理", businessType = BusinessType.UPDATE)
     @PreAuthorize("hasAuthority('btn.sysUser.update')")
     @ApiOperation("用户修改")
     @PutMapping("/update")
@@ -110,6 +132,7 @@ public class SysUserController {
         return Result.ok(sysUserService.getPage(new Page<>(page, limit), sysUserQueryVo));
     }
 
+    @Log(title = "用户管理", businessType = BusinessType.DELETE)
     @PreAuthorize("hasAuthority('btn.sysUser.remove')")
     @ApiOperation("根据id删除")
     @DeleteMapping("/removeById/{id}")
@@ -123,6 +146,7 @@ public class SysUserController {
         }
     }
 
+    @Log(title = "用户管理", businessType = BusinessType.DELETE)
     @PreAuthorize("hasAuthority('btn.sysUser.remove')")
     @ApiOperation("批量删除")
     @DeleteMapping("/removeByIds")
