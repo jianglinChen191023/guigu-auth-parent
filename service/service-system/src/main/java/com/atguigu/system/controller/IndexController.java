@@ -72,6 +72,8 @@ public class IndexController {
     @ApiOperation("获取用户信息")
     @GetMapping("/info")
     public Result<Map<String, Object>> info(HttpServletRequest request) {
+        // 从请求头中获取 token 字符串
+        String token = request.getHeader("token");
         // 根据用户id获取用户信息
         Map<String, Object> map = sysUserService.getUserInfo(JwtHelper.getUsername(token));
         // 返回数据
