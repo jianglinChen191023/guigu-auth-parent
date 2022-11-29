@@ -28,7 +28,7 @@ public class SysLoginLogApiController {
     @HystrixCommand(fallbackMethod = "saveLoginLogBackup")
     @PostMapping("/save")
     public Result saveLoginLog(@RequestBody SysLoginLog sysLoginLog) throws InterruptedException {
-        Thread.sleep(10000);
+        // Thread.sleep(10000);
         if (sysLoginLogService.save(sysLoginLog)) {
             return Result.ok();
         } else {
