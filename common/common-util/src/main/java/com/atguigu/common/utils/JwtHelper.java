@@ -17,7 +17,7 @@ public class JwtHelper {
      * 令牌过期时间
      * 过期时间是3600秒，既是1个小时
      */
-    private static final long EXPIRATION = 3600L;
+    private static final long EXPIRATION = 60L;
 
     /**
      * 令牌秘钥

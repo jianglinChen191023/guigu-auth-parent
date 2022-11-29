@@ -51,6 +51,12 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
+        String token = request.getHeader("token");
+        // 判断 token 是否过期
+        if (JwtHelper.isExpiration(token)) {
+            ResponseUtil.out(response, Result.build(null, ResultCodeEnum.TOKEN_EXPIRED));
+        }
+
         UsernamePasswordAuthenticationToken authentication = getAuthentication(request);
         if (null != authentication) {
             SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -63,6 +69,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
     private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request) {
         // token置于header里
         String token = request.getHeader("token");
+
         logger.info("token:" + token);
         if (!StringUtils.isEmpty(token)) {
             String username = JwtHelper.getUsername(token);

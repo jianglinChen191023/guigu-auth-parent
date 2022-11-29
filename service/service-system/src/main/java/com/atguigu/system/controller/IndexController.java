@@ -79,11 +79,6 @@ public class IndexController {
             throw new GuiguException(ResultCodeEnum.FAIL.getCode(), "非法请求!");
         }
 
-        // 判断 token 是否过期
-        if (JwtHelper.isExpiration(token)) {
-            throw new GuiguException(ResultCodeEnum.FAIL.getCode(), "token 已过期!");
-        }
-
         // 根据用户id获取用户信息
         Map<String, Object> map = sysUserService.getUserInfo(JwtHelper.getUsername(token));
         // 返回数据
