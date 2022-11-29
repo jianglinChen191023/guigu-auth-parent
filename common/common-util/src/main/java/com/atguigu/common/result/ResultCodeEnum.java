@@ -26,7 +26,9 @@ public enum ResultCodeEnum {
     LOGIN_MOBLE_ERROR(216, "账号不正确"),
     ACCOUNT_STOP(217, "账号已停用"),
     NODE_ERROR(218, "该节点下有子节点，不可以删除"),
-    TOKEN_EXPIRED(50014, "token 过期，请重新登录");
+    TOKEN_EXPIRED(50014, "token 过期，请重新登录"),
+    ILLEGAL_TOKEN(50008, "无效 token"),
+    OTHER_CLIENTS_LOGGED_IN(50012, "账号在其他客户端登录");
 
     private Integer code;
 

@@ -13,11 +13,13 @@ import java.util.HashMap;
  */
 public class JwtHelper {
 
+    public static final String TOKEN_PREFIX = "REDIS_USERNAME_";
+
     /**
      * 令牌过期时间
-     * 过期时间是3600秒，既是1个小时
+     * 过期时间是3600秒，既是1个小时 [{86400: '一天'}]
      */
-    private static final long EXPIRATION = 60L;
+    public static final long EXPIRATION = 86400L;
 
     /**
      * 令牌秘钥

@@ -12,6 +12,7 @@ import com.atguigu.service.api.SystemRemoteService;
 import com.atguigu.system.custom.CustomUser;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -26,6 +27,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author 陈江林
@@ -86,11 +88,16 @@ public class TokenLoginFilter extends UsernamePasswordAuthenticationFilter {
                                             Authentication auth) throws IOException, ServletException {
         // 获取认证对象
         CustomUser customUser = (CustomUser) auth.getPrincipal();
+        String username = customUser.getUsername();
+
         // 保存权限数据
-        redisTemplate.opsForValue().set(customUser.getUsername(),
+        ValueOperations<String, String> operations = redisTemplate.opsForValue();
+        operations.set(username,
                 JSON.toJSONString(customUser.getAuthorities()));
         // 生成 token
         String token = JwtHelper.createToken(customUser.getSysUser().getId(), customUser.getSysUser().getUsername());
+        // 设置超时时间的 token, token 唯一，
+        operations.set(JwtHelper.TOKEN_PREFIX + username, username, JwtHelper.EXPIRATION, TimeUnit.SECONDS);
         // 登录日志
         SysLoginLog sysLoginLog = new SysLoginLog();
         sysLoginLog.setUsername(customUser.getUsername());

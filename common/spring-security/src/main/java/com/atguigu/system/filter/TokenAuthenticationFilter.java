@@ -52,9 +52,32 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         }
 
         String token = request.getHeader("token");
+        if (StringUtils.isEmpty(token)) {
+            // 无效 token
+            ResponseUtil.out(response, Result.build(null, ResultCodeEnum.ILLEGAL_TOKEN));
+            return;
+        }
+
+        String username;
+        try {
+            username = JwtHelper.getUsername(token);
+        } catch (Exception e) {
+            // 无效 token
+            ResponseUtil.out(response, Result.build(null, ResultCodeEnum.ILLEGAL_TOKEN));
+            return;
+        }
+
         // 判断 token 是否过期
         if (JwtHelper.isExpiration(token)) {
             ResponseUtil.out(response, Result.build(null, ResultCodeEnum.TOKEN_EXPIRED));
+            return;
+        }
+
+        // 是否在其他客户端登录，当前请求的 token 是否与服务器 redis 中 token 一致
+        Object redisToken = redisTemplate.opsForValue().get(JwtHelper.TOKEN_PREFIX + username);
+        if (!token.equals(redisToken)) {
+            ResponseUtil.out(response, Result.build(null, ResultCodeEnum.OTHER_CLIENTS_LOGGED_IN));
+            return;
         }
 
         UsernamePasswordAuthenticationToken authentication = getAuthentication(request);
