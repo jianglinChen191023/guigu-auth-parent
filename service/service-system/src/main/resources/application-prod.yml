@@ -10,3 +10,9 @@ spring:
     url: ${SPRING_DATASOURCE_URL}
     username: root
     password: ${SPRING_DATASOURCE_PASSSWORD}
+
+ribbon:
+  # 10秒 - 处理请求的超时时间，默认为5秒
+  ReadTimeout: 10000
+  # 10秒 - 连接建立的超时时长，默认5秒
+  ConnectTimeout: 10000
