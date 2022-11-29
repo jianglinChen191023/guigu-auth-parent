@@ -13,11 +13,11 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 认证解析过滤器
@@ -34,58 +34,62 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
-            throws IOException, ServletException {
-        String requestURI = request.getRequestURI();
-        logger.info("uri:" + requestURI);
-        // 请求白名单
-        List<String> list = new ArrayList<>();
-        // 登录接口
-        list.add("/admin/system/index/login");
-        // 保存登录日志
-        list.add("/api/system/sysLoginLog/save");
-
-        // 如果是登录接口，或保存登录日志...直接放行
-        if (list.contains(requestURI)) {
-            chain.doFilter(request, response);
-            return;
-        }
-
-        String token = request.getHeader("token");
-        if (StringUtils.isEmpty(token)) {
-            // 无效 token
-            ResponseUtil.out(response, Result.build(null, ResultCodeEnum.ILLEGAL_TOKEN));
-            return;
-        }
-
-        String username;
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) {
         try {
-            username = JwtHelper.getUsername(token);
+            String requestURI = request.getRequestURI();
+            logger.info("uri:" + requestURI);
+            // 请求白名单
+            List<String> list = new ArrayList<>();
+            // 登录接口
+            list.add("/admin/system/index/login");
+            // 保存登录日志
+            list.add("/api/system/sysLoginLog/save");
+
+            // 如果是登录接口，或保存登录日志...直接放行
+            if (list.contains(requestURI)) {
+                chain.doFilter(request, response);
+                return;
+            }
+
+            String token = request.getHeader("token");
+            if (StringUtils.isEmpty(token)) {
+                // 无效 token
+                ResponseUtil.out(response, Result.build(null, ResultCodeEnum.ILLEGAL_TOKEN));
+                return;
+            }
+
+            // 判断 token 是否过期
+            if (JwtHelper.isExpiration(token)) {
+                ResponseUtil.out(response, Result.build(null, ResultCodeEnum.TOKEN_EXPIRED));
+                return;
+            }
+
+            String username;
+            try {
+                username = JwtHelper.getUsername(token);
+            } catch (Exception e) {
+                // 无效 token
+                ResponseUtil.out(response, Result.build(null, ResultCodeEnum.ILLEGAL_TOKEN));
+                return;
+            }
+
+            // 是否在其他客户端登录，当前请求的 token 是否与服务器 redis 中 token 一致
+            Object redisToken = redisTemplate.opsForValue().get(JwtHelper.TOKEN_PREFIX + username);
+            if (!token.equals(redisToken)) {
+                ResponseUtil.out(response, Result.build(null, ResultCodeEnum.OTHER_CLIENTS_LOGGED_IN));
+                return;
+            }
+
+            UsernamePasswordAuthenticationToken authentication = getAuthentication(request);
+            if (null != authentication) {
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+                chain.doFilter(request, response);
+            } else {
+                ResponseUtil.out(response, Result.build(null, ResultCodeEnum.PERMISSION));
+            }
         } catch (Exception e) {
-            // 无效 token
-            ResponseUtil.out(response, Result.build(null, ResultCodeEnum.ILLEGAL_TOKEN));
-            return;
-        }
-
-        // 判断 token 是否过期
-        if (JwtHelper.isExpiration(token)) {
-            ResponseUtil.out(response, Result.build(null, ResultCodeEnum.TOKEN_EXPIRED));
-            return;
-        }
-
-        // 是否在其他客户端登录，当前请求的 token 是否与服务器 redis 中 token 一致
-        Object redisToken = redisTemplate.opsForValue().get(JwtHelper.TOKEN_PREFIX + username);
-        if (!token.equals(redisToken)) {
-            ResponseUtil.out(response, Result.build(null, ResultCodeEnum.OTHER_CLIENTS_LOGGED_IN));
-            return;
-        }
-
-        UsernamePasswordAuthenticationToken authentication = getAuthentication(request);
-        if (null != authentication) {
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            chain.doFilter(request, response);
-        } else {
-            ResponseUtil.out(response, Result.build(null, ResultCodeEnum.PERMISSION));
+            // 服务异常
+            ResponseUtil.out(response, Result.build(null, ResultCodeEnum.SERVICE_ERROR));
         }
     }
 
