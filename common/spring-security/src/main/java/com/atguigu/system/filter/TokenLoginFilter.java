@@ -97,7 +97,7 @@ public class TokenLoginFilter extends UsernamePasswordAuthenticationFilter {
         // 生成 token
         String token = JwtHelper.createToken(customUser.getSysUser().getId(), customUser.getSysUser().getUsername());
         // 设置超时时间的 token, token 唯一，
-        operations.set(JwtHelper.TOKEN_PREFIX + username, username, JwtHelper.EXPIRATION, TimeUnit.SECONDS);
+        operations.set(JwtHelper.TOKEN_PREFIX + username, token, JwtHelper.EXPIRATION, TimeUnit.SECONDS);
         // 登录日志
         SysLoginLog sysLoginLog = new SysLoginLog();
         sysLoginLog.setUsername(customUser.getUsername());
