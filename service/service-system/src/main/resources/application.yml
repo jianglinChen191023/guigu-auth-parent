@@ -14,3 +14,7 @@ spring:
       discovery:
         # nacos 服务地址
         server-addr: 127.0.0.1:8848
+# 使用 Hystrix 断路器
+feign:
+  hystrix:
+    enabled: true

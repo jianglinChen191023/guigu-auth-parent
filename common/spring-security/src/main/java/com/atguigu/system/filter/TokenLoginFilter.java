@@ -97,11 +97,16 @@ public class TokenLoginFilter extends UsernamePasswordAuthenticationFilter {
         sysLoginLog.setStatus(1);
         sysLoginLog.setIpaddr(IpUtil.getIpAddress(request));
         sysLoginLog.setMsg("登录成功");
-        systemRemoteService.saveLoginLog(sysLoginLog);
-        // 返回
-        Map<String, Object> map = new HashMap<>();
-        map.put("token", token);
-        ResponseUtil.out(response, Result.ok(map));
+        Result result = systemRemoteService.saveLoginLog(sysLoginLog);
+        if (ResultCodeEnum.SUCCESS.getCode().equals(result.getCode())) {
+            // 返回 token
+            Map<String, Object> map = new HashMap<>();
+            map.put("token", token);
+            ResponseUtil.out(response, Result.ok(map));
+        } else {
+            // 返回服务无响应
+            ResponseUtil.out(response, Result.fail().message("服务无响应，请重试"));
+        }
     }
 
     /**
