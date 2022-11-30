@@ -11,8 +11,8 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,6 +27,9 @@ import java.util.Map;
 @RestController
 @RequestMapping("/admin/system/index")
 public class IndexController {
+
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     @Autowired
     private SysUserService sysUserService;
@@ -82,7 +85,13 @@ public class IndexController {
 
     @ApiOperation("用户退出登录")
     @PostMapping("/logout")
-    public Result logout() {
+    public Result logout(HttpServletRequest request) {
+        // 从请求头中获取 token 字符串
+        String token = request.getHeader("token");
+        String username = JwtHelper.getUsername(token);
+
+        // 清除 token
+        redisTemplate.delete(JwtHelper.TOKEN_PREFIX + username);
         return Result.ok();
     }
 
